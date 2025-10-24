@@ -85,6 +85,7 @@ export default function Home() {
       const text = "Om";
       let index = 0;
       heroTextRef.current.textContent = "";
+      heroTextRef.current.style.visibility = "visible";
       
       const typeInterval = setInterval(() => {
         if (index < text.length) {
@@ -99,6 +100,12 @@ export default function Home() {
     }
   }, [loading]);
   // Toast notification
+  useEffect(() => {
+    const scrollArea = document.querySelector('.scroll-area');
+    if (scrollArea) {
+      scrollArea.scrollTop = scrollArea.scrollHeight;
+    }
+  }, [messages]);
   const showToast = (message, type = 'success') => {
     setToast({ message, type });
     setTimeout(() => setToast(null), 3000);
@@ -579,3 +586,4 @@ export default function Home() {
     </>
   );
 }
+ 

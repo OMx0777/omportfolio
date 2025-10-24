@@ -29,6 +29,10 @@
     --blue: #4da6ff;
 }
 
+.dark-mode .button.white {
+  color: var(--base-100);
+}
+
 body {
     font-family: "Open Sans", sans-serif;
     font-optical-sizing: auto;
@@ -85,7 +89,7 @@ body {
 .dark-mode-toggle {
     position: fixed;
     top: 20px;
-    right: 80px;
+    right: 10px;
     z-index: 1000;
     background: var(--base-800);
     color: var(--base-100);
@@ -247,7 +251,8 @@ body {
     display: inline-block;
     border-right: 3px solid var(--base-800);
     animation: blink 0.7s infinite;
-    min-width: 100px;
+    min-width: 50px;
+    min-height: 1.2em;
 }
 
 @keyframes blink {
@@ -490,11 +495,11 @@ section{
     display: inline;
 }
 
-@media (max-width:768px) {
+/*@media (max-width:768px) {
     .hero .hero-blue span{
         display: none;
     }
-}
+}  he hyamule span disat nahi om la span madhun kadhu shakto pn jaude*/
 
 .hero .hero-blue .call-to-action{
     margin-top: 20px;
@@ -915,6 +920,7 @@ h3{
     justify-content: center;
     color: white;
     font-size: 12px;
+    flex-shrink: 0;
 }
 
 @media (max-width:768px) {
@@ -926,12 +932,15 @@ h3{
 
 .chatbot .chatbot-blue .chat-box .scroll-area ul li div{
     flex: 1;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .chatbot .chatbot-blue .chat-box .chat-message{
     display:flex;
     margin-top:15px;
     gap:15px;
+    align-items: stretch;
 }
 
 .chatbot .chatbot-blue .chat-box .chat-message input{
@@ -941,6 +950,7 @@ h3{
     border:1px solid transparent;
     background-color: var(--base-100);
     transition: var(--transition);
+    min-width: 0;
 }
 
 .chatbot .chatbot-blue .chat-box .chat-message input:hover{
@@ -958,9 +968,30 @@ h3{
 .chatbot .chatbot-blue .chat-box .chat-message button{
     border:none;
     cursor:pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 .button.prlink {
     background-color: rgb(21, 111, 21);
   padding: 8px 20px;
   font-size: 14px;
+}
+.hero .hero-blue h1 {
+    font-size: 54px;
+    line-height: 1;
+    margin: 10px;
+}
+
+.hero .hero-blue h1 .typing-text {
+    visibility: visible;
+}
+
+@media (max-width: 768px) {
+    .hero .hero-blue h1 {
+        font-size: 42px;
+    }
+    
+    .hero .hero-blue h1 .typing-text {
+        min-width: 40px;
+    }
 }
