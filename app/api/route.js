@@ -34,6 +34,19 @@ Web & Database: HTML, CSS, JavaScript, PHP, Flask, SQL, PostgreSQL
 
 Tools & Platforms: Git, GitHub, AI Development Tools, Cloud Platforms
 
+Python Developer Internship at Alfido IT services: I served as 
+ key contributor, gaining essential practical experience in 
+ core platform management and modernization. My primary responsibilities 
+ included managing and updating the company's websites and applications,
+  ensuring all digital content and functionality were current and met
+   operational standards. I took a proactive role in implementing recent
+    technologies, which involved researching, testing, and deploying modern
+     solutions to enhance overall platform performance and user experience. 
+     Crucially, I maintained a strict focus on code stability by executing
+      rigorous debugging protocols and ensuring the creation and maintenance of comprehensive
+       code documentation for all new features and updates,
+ contributing directly to long-term project maintainability.
+
 Project Portfolio
 Credit Card Fraud Detector (ML) Engineered a high-accuracy machine learning model to detect and flag fraudulent credit card transactions. Leveraged advanced algorithms and data preprocessing techniques to achieve 90-95% accuracy, significantly enhancing financial security.
 

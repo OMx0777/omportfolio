@@ -30,7 +30,7 @@ export default function Home() {
     { id: 3, title: "Real-Time Emotion Tracker with music", description: "Real-Time Emotion Tracker with Recommendation Model for live Music Recommendation.", tech: ["API", "ML", "python"], img: "./imgs/p3.jpg", link: "https://github.com/OMx0777?tab=repositories" },
     { id: 4, title: "Credit Card Fraud Detector", description: "Credit Card Fraud Detector using ML.", tech: ["SQL", "ML", "AI"], img: "./imgs/p5.jpg", link: "https://github.com/OMx0777?tab=repositories" },
     { id: 5, title: "Unemployment Predictor", description: "Advanced machine learning project utilizing ML and Python for predictive analytics for Students and Freshers by analysing skills and education.", tech: ["Python", "ML", "AI"], img: "./imgs/p6.jpg", link: "https://github.com/OMx0777?tab=repositories" },
-    { id: 6, title: "Potholes Detector and Reporter", description: "Potholes Detector and Reporter Using ML..", tech: ["ML", "AI", "MySQL", "API"], img: "./imgs/p1.jpg", link: "https://github.com/OMx0777?tab=repositories" }
+    { id: 6, title: "Potholes Detector and Reporter", description: "Potholes Detector and Reporter Using ML..", tech: ["ML", "AI", "MySQL", "API"], img: "./imgs/p1.png", link: "https://github.com/OMx0777?tab=repositories" }
   ];
   // Loading effect
   useEffect(() => {
@@ -438,40 +438,23 @@ export default function Home() {
             <div className="right-column">
               <h3> A bit more about Me</h3>
               <p>
-                A passionate and highly capable Python Developer with a strong foundation
-                in problem-solving and a drive to leverage technology to create real-life solutions.
-                I am committed to advancing my career in the IT sector as a developer, backed by hands-on 
-                experience in complex technical projects and extensive leadership roles.
-
-                Technical Expertise
-
-                I specialize in building Projects across various technical domains, focusing on clean, efficient code:
-
-                Core Programming: Python (Advanced).
-
-                Problem Solving: Successfully built and deployed projects addressing complex, real-world challenges.
-
-                Leadership & Organizational Impact
-
-                Beyond code, I excel at strategy, teamwork, and leading initiatives that deliver tangible results:
-
-                Rotaract Vice President: Led a 90+ member team for one year as Vice President of the Rotaract Club of Indira College.
-
-                Financial & Event Management: Successfully generated over ₹1 Lakh (100,000+) in club funding and charity, 
-                and led the organization of multiple large-scale charity and professional development events.
-
-                Teamwork & Coaching: Recognized for strong teamwork capabilities, reinforced by roles such as Wrestling Coach (2 years) 
-                and Modeling Team Coordinator (2 years).
-
-                Strategic & Competitive Discipline: My background as a State-level Professional Wrestler 
-                and District-level Chess Player directly translates into resilience, strategic planning, 
-                and the ability to perform under pressure—essential skills for project execution.
-
-                Commitment to Growth
-
-                With a comprehensive leadership track record—including three years as a class Representative
-                and one year as Vice President actively seek and thrive in environments that require collaboration, 
-                quick learning, and accepting responsibility.
+              I am a highly driven and results-focused Python Developer with a clear commitment
+               to applying advanced technical skills to create tangible, real-world solutions. 
+               My foundation rests on a blend of theoretical knowledge and critical hands-on experience, 
+               most recently demonstrated through a significant developer internship. During this role, I was 
+               instrumental in maintaining the company's core digital presence, actively managing and updating 
+               content across key websites and applications. This required a proactive approach to research and 
+               implementing recent technologies to modernize platforms and optimize user experience, all
+                while ensuring platform stability through rigorous debugging and comprehensive code
+                 documentation. Beyond my technical contributions, I possess a unique and extensive 
+                 leadership track record. I currently serve as the Vice President of a large, 90+ members Rotaract 
+                 organization, where my responsibilities include directing strategic operations, mentoring teams,
+                  and successfully orchestrating initiatives that have collectively generated over ₹1 Lakh for
+                   charitable causes. My deep-seated capacity for discipline and strategic planning is uniquely
+                    reinforced by my competitive background as a State-level Professional Wrestler. I am now
+                     seeking a challenging entry-level developer role where this powerful combination of practical
+                      development experience, advanced technical expertise, and proven strategic
+               leadership can immediately contribute to the success of an innovative IT team.
               </p>
             </div>
           </div>
@@ -548,7 +531,7 @@ export default function Home() {
               <img src="./imgs/p6.jpg" alt="project-5" width="100%" />
             </a>
             <a href="#" className="bento-item" onClick={(e) => { e.preventDefault(); setSelectedProject(projectsData[5]); }}>
-              <img src="./imgs/p1.jpg" alt="project-6" width="100%" />
+              <img src="./imgs/p1.png" alt="project-6" width="100%" />
             </a>
           </div>
         </section>
