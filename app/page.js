@@ -313,7 +313,7 @@ export default function Home() {
               elite leadership skills <span>I seek an IT role valuing high performance and strategic direction.</span>
             </p>
             <div className="call-to-action">
-              <a href="./omresume.pdf" className="button black" onClick={handleResumeDownload}>
+              <a href="./OmSathe.pdf" className="button black" onClick={handleResumeDownload}>
                 View Resume
               </a>
               <a href="mailto:omsathe0777@gmail.com" className="button white">
@@ -485,9 +485,22 @@ export default function Home() {
             <article>
               <figure>
                 <div>
-                  <img src="./imgs/rtr1.png" alt="work1" width="100%" />
+                  <img src="./imgs/alfidologo.png" alt="internship" width="100%" />
                   <figcaption>
-                    Farmacy Auditorium
+                    Remote
+                  </figcaption>
+                </div>
+              </figure>
+              <h3>Alfido IT Services</h3>
+              <div>2025</div>
+              <p>Worked as a Python Developer Intern for 4 months managing website and an application.</p>
+            </article>      
+            <article>
+              <figure>
+                <div>
+                  <img src="./imgs/rtr1.png" alt="vicepresident" width="100%" />
+                  <figcaption>
+                    Pharmacy Auditorium
                   </figcaption>
                 </div>
               </figure>
@@ -498,7 +511,7 @@ export default function Home() {
             <article>
               <figure>
                 <div>
-                  <img src="./imgs/coach.png" alt="work2" width="100%" />
+                  <img src="./imgs/coach.png" alt="wrestling-awards" width="100%" />
                   <figcaption>
                     State Wrestling Federation
                   </figcaption>
@@ -507,7 +520,8 @@ export default function Home() {
               <h3>Narendra Wrestling Club</h3>
               <div>2021-2023</div>
               <p>Worked under Netaji Subhas National Institute of Sports (NSNIS) Coach as assistant coach.</p>
-            </article>        
+            </article>  
+            
           </div>
         </section>
         <section id="projects" className="bento containar animate-on-scroll">
@@ -555,7 +569,7 @@ export default function Home() {
               <p>You can also download my resume here if you want to take a look at it.
                 I'm currently looking for new opportunities so if you have a requirement and 
                 you think I'd be a good fit for, please get in touch!</p>
-              <a href="./omresume.pdf" className="button black" onClick={handleResumeDownload}>Download Resume</a>
+              <a href="./OmSathe.pdf" className="button black" onClick={handleResumeDownload}>Download Resume</a>
             </div>
             <div className="chat-box">
               <div className="scroll-area">
