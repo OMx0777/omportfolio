@@ -25,12 +25,12 @@ export default function Home() {
 
   // Projects data for modal
   const projectsData = [
-    { id: 1, title: "Machine learning To predict Suicide rate", description: "Advanced machine learning project utilizing TensorFlow and Python for predictive analytics for Farmers suicide rate on Geografical level.", tech: ["Python", "ML", "TensorFlow", "AI"], img: "./imgs/p4.jpg", link: "https://github.com/OMx0777?tab=repositories" },
-    { id: 2, title: "Offline Code Generation tool", description: "Full stack code developer tool using deepseek LLM for Security and Privacy.", tech: ["Python", "OLamma", "LLM"], img: "./imgs/p2.jpg", link: "https://github.com/OMx0777?tab=repositories" },
-    { id: 3, title: "Real-Time Emotion Tracker with music", description: "Real-Time Emotion Tracker with Recommendation Model for live Music Recommendation.", tech: ["API", "ML", "python"], img: "./imgs/p3.jpg", link: "https://github.com/OMx0777?tab=repositories" },
-    { id: 4, title: "Credit Card Fraud Detector", description: "Credit Card Fraud Detector using ML.", tech: ["SQL", "ML", "AI"], img: "./imgs/p5.jpg", link: "https://github.com/OMx0777?tab=repositories" },
-    { id: 5, title: "Unemployment Predictor", description: "Advanced machine learning project utilizing ML and Python for predictive analytics for Students and Freshers by analysing skills and education.", tech: ["Python", "ML", "AI"], img: "./imgs/p6.jpg", link: "https://github.com/OMx0777?tab=repositories" },
-    { id: 6, title: "Potholes Detector and Reporter", description: "Potholes Detector and Reporter Using ML..", tech: ["ML", "AI", "MySQL", "API"], img: "./imgs/p1.png", link: "https://github.com/OMx0777?tab=repositories" }
+    { id: 1, title: "Machine learning To predict Suicide rate", description: "Advanced machine learning project utilizing TensorFlow and Python for predictive analytics for Farmers suicide rate on Geografical level.", tech: ["Python", "ML", "streamlit", "XGBoost"], img: "./imgs/p4.jpg", link: "https://github.com/OMx0777/Farmer_Suicide_Risk_Predictor", vdlink: "https://youtu.be/MBLSE1GMEho?si=pEKjLiMXuJr0UXFT" },
+    { id: 2, title: "Offline Code Generation App", description: "Full stack code developer tool using Self finetuned deepseek LLM for Security and Privacy.", tech: ["Python", "Ollama", "LLM", "HuggingFace"], img: "./imgs/p2.jpg", link: "https://github.com/OMx0777/offline-finetuned-coder-AI", vdlink: "https://youtu.be/6aF9wwdzKMY?si=Jef-bpxBOaNcdCq5" },
+    { id: 3, title: "Real-Time Emotion Tracker with music", description: "Real-Time Emotion Tracker with Recommendation Model for live Music Recommendation.", tech: ["Torch","OpenCV", "ML", "python", "Jupyter Notebook"], img: "./imgs/p3.jpg", link: "https://github.com/OMx0777/Real_time_Emotion_Detector_With_music_Recommendation", vdlink: "https://youtu.be/MBLSE1GMEho?si=pEKjLiMXuJr0UXFT" },
+    { id: 4, title: "Credit Card Fraud Detector", description: "Credit Card Fraud Detector using ML.", tech: ["Python", "sklearn", "Pandas & Numpy", "SQL", "ML", "Jupyter Notebook"], img: "./imgs/p5.jpg", link: "https://github.com/OMx0777/Credit_Card_Fraud_Detaction", vdlink: "https://youtu.be/MBLSE1GMEho?si=pEKjLiMXuJr0UXFT" },
+    { id: 5, title: "Unemployment Predictor", description: "Evaluates your professional profile to predict job risk, then recommends personalized skills and roles to secure your career.", tech: ["Python", "Recommendation Engine", "API", "ML", "XGBoost"], img: "./imgs/p6.jpg", link: "https://github.com/OMx0777/Unemployment_Predictor", vdlink: "https://youtu.be/MBLSE1GMEho?si=pEKjLiMXuJr0UXFT" },
+    { id: 6, title: "Potholes Detector and Reporter", description: "Potholes Detector and Reporter Using ML..", tech: ["ML", "AI", "OpenCV", "MySQL", "API"], img: "./imgs/p1.png", link: "https://github.com/OMx0777/Pothole-Detector-prototype", vdlink: "https://youtu.be/6aF9wwdzKMY?si=Jef-bpxBOaNcdCq5" }
   ];
   // Loading effect
   useEffect(() => {
@@ -267,6 +267,14 @@ export default function Home() {
             >
               View Project
             </a>
+            <a 
+              href={selectedProject.vdlink} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="button vdlink"
+            >
+              Watch Video
+            </a>
           </div>
         </div>
       )}
@@ -307,10 +315,10 @@ export default function Home() {
               <span ref={heroTextRef} className="typing-text">Om</span>
             </h1>
             <p>
-              Passionate Python Developer focused on
+              Passionate Full Stack Developer focused on
               turning complex problems into elegant code.
               My technical foundation is amplified by 
-              elite leadership skills <span>I seek an IT role valuing high performance and strategic direction.</span>
+              elite Problem solving & leadership skills <span>I seek an IT role valuing high performance and strategic direction.</span>
             </p>
             <div className="call-to-action">
               <a href="./OmSathe.pdf" className="button black" onClick={handleResumeDownload}>
@@ -321,11 +329,14 @@ export default function Home() {
               </a>
             </div>
             <div className="social-links">
-              <a href="https://github.com/OMx0777?tab=repositories">
+              <a href="https://github.com/OMx0777">
                 <img src="./imgs/github.png" alt="Github" width="48" />
               </a>
               <a href="https://www.linkedin.com/in/om-sathe-547756304/">
                 <img src="./imgs/linkedin.png" alt="linkedin" width="48" />
+              </a>
+              <a href="https://www.youtube.com/@OmSathe-0777">
+                <img src="./imgs/youtube.png" alt="linkedin" width="48" />
               </a>
             </div>
           </div>
@@ -409,7 +420,6 @@ export default function Home() {
               <ul>
                 <li>Python</li>
                 <li>C</li>
-                <li>C++</li>
                 <li>JAVA</li>
               </ul>
               <h3>Web Technologis</h3>
@@ -427,11 +437,16 @@ export default function Home() {
                 <li>Model Training & Evaluation</li>
                 <li>TensorFlow</li>
                 <li>PyTorch</li>
+                <li>OpenCV</li>
+                <li>XGBoost</li>
                 <li>Numpy & Pandas</li>
+                <li>Ollama</li>
+                <li>Large Languages Models</li>
               </ul>
               <h3>Database</h3>
               <ul>
-                <li>PostgresSQL</li>
+                <li>MySQL</li>
+                <li>PostgreSQL</li>
                 <li>Cloud</li>
               </ul>
             </div>
@@ -510,9 +525,9 @@ export default function Home() {
         <section id="projects" className="bento containar animate-on-scroll">
           <h2>
             <small>
-              Previous
+              Recent
             </small>
-            Completed Projects
+            Check My Completed Projects
           </h2>
           <div className="bento-grid">
             <a href="#" className="bento-item" onClick={(e) => { e.preventDefault(); setSelectedProject(projectsData[0]); }}>
@@ -538,13 +553,13 @@ export default function Home() {
         <section className="chatbot containar animate-on-scroll">
           <h2>
             <small>
-              Talk to Me
+              Talk to my AI
             </small>
             chatbot
           </h2>
           <div className="chatbot-blue">
             <div className="chat-info">
-              <h3>My Chat Assistant</h3>
+              <h3>My AI Assistant</h3>
               <p>She is my assistant Omi.She knows all my skills and About my Acadamics and Experiences.She also have my Resume.
                 You can talk to her about me and ask her questions about me.
                 To get better idea about who i am and about my goals and projects.
@@ -583,4 +598,3 @@ export default function Home() {
     </>
   );
 }
- 

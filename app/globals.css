@@ -976,6 +976,11 @@ h3{
   padding: 8px 20px;
   font-size: 14px;
 }
+.button.vdlink {
+    background-color: rgb(128, 13, 13);
+  padding: 8px 20px;
+  font-size: 14px;
+}
 .hero .hero-blue h1 {
     font-size: 54px;
     line-height: 1;
