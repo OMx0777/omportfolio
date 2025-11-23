@@ -849,7 +849,7 @@ h3{
     }
 }
 .chatbot .chatbot-blue{
-    background-color:gold;
+    background-color: maroon;
     border-radius: 30px;
     padding: 30px;
     gap:30px;
@@ -998,5 +998,78 @@ h3{
     
     .hero .hero-blue h1 .typing-text {
         min-width: 40px;
+    }
+}
+
+/* Contact Form Styles */
+.contact-section {
+    background-color: var(--blue-100);
+    border-radius: 30px;
+    padding: 60px 30px;
+    margin-top: 60px;
+}
+
+.contact-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.contact-form {
+    background: var(--base-100);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--base-800);
+    font-size: 16px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid var(--base-100);
+    background-color: white;
+    font-size: 16px;
+    transition: var(--transition);
+    font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--blue-400);
+}
+
+.form-group textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .contact-section {
+        padding: 40px 20px;
+    }
+    
+    .contact-form {
+        padding: 30px 20px;
     }
 }

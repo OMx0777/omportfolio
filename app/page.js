@@ -1,5 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+// REMOVED TOP LEVEL IMPORT TO FIX SSR ERROR
+import "./globals.css";
 
 export default function Home() {
     
@@ -12,7 +14,7 @@ export default function Home() {
     }
   ]);
 
-  // NEW STATES - Add these
+  // NEW STATES
   const [darkMode, setDarkMode] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -21,7 +23,18 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [formErrors, setFormErrors] = useState({});
   const heroTextRef = useRef(null);
-  const [marqueeSpeed, setMarqueeSpeed] = useState(30); // Add this line with other states
+  const [marqueeSpeed, setMarqueeSpeed] = useState(30);
+
+  // EmailJS Loading State
+  const [isSending, setIsSending] = useState(false);
+  
+  // Contact form states
+  const [contactForm, setContactForm] = useState({
+    fullName: '',
+    email: '',
+    message: ''
+  });
+  const [contactErrors, setContactErrors] = useState({});
 
   // Projects data for modal
   const projectsData = [
@@ -32,6 +45,7 @@ export default function Home() {
     { id: 5, title: "Unemployment Predictor", description: "Evaluates your professional profile to predict job risk, then recommends personalized skills and roles to secure your career.", tech: ["Python", "Recommendation Engine", "API", "ML", "XGBoost"], img: "./imgs/p6.jpg", link: "https://github.com/OMx0777/Unemployment_Predictor", vdlink: "https://youtu.be/MBLSE1GMEho?si=pEKjLiMXuJr0UXFT" },
     { id: 6, title: "Potholes Detector and Reporter", description: "Potholes Detector and Reporter Using ML..", tech: ["ML", "AI", "OpenCV", "MySQL", "API"], img: "./imgs/p1.png", link: "https://github.com/OMx0777/Pothole-Detector-prototype", vdlink: "https://youtu.be/6aF9wwdzKMY?si=Jef-bpxBOaNcdCq5" }
   ];
+
   // Loading effect
   useEffect(() => {
     setTimeout(() => setLoading(false), 1500);
@@ -99,6 +113,7 @@ export default function Home() {
       return () => clearInterval(typeInterval);
     }
   }, [loading]);
+  
   // Toast notification
   useEffect(() => {
     const scrollArea = document.querySelector('.scroll-area');
@@ -106,12 +121,13 @@ export default function Home() {
       scrollArea.scrollTop = scrollArea.scrollHeight;
     }
   }, [messages]);
+  
   const showToast = (message, type = 'success') => {
     setToast({ message, type });
     setTimeout(() => setToast(null), 3000);
   };
 
-  // Form validation
+  // Chatbot Form validation
   const validateForm = () => {
     const errors = {};
     if (!messageInput.trim()) {
@@ -121,7 +137,7 @@ export default function Home() {
     return Object.keys(errors).length === 0;
   };
 
-  // Updated submit form with validation and toast
+  // Chatbot submit
   const submitForm = async (e) => {
     e.preventDefault();
     
@@ -147,6 +163,71 @@ export default function Home() {
     } catch (error) {
       showToast("Failed to send message", "error");
     }
+  };
+
+  // Contact form validation
+  const validateContactForm = () => {
+    const errors = {};
+    if (!contactForm.fullName.trim()) {
+      errors.fullName = "Please enter your full name";
+    }
+    if (!contactForm.email.trim()) {
+      errors.email = "Please enter your email";
+    } else if (!/\S+@\S+\.\S+/.test(contactForm.email)) {
+      errors.email = "Please enter a valid email";
+    }
+    if (!contactForm.message.trim()) {
+      errors.message = "Please enter a message";
+    }
+    setContactErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  // Submit contact form (EMAILJS INTEGRATION FIXED FOR SSR)
+  const submitContactForm = async (e) => { // Added async here
+    e.preventDefault();
+    
+    if (!validateContactForm()) {
+      showToast("Please fill in all fields correctly", "error");
+      return;
+    }
+
+    setIsSending(true); // Start loading
+
+    // Import EmailJS dynamically here to prevent server crashes
+    const emailjs = (await import('@emailjs/browser')).default;
+
+    const serviceId = 'service_b799y0f';
+    const templateId = 'template_z6mctvk';
+    const publicKey = 'MU_F_uzHCyFV8Apdy';
+
+    const templateParams = {
+        from_name: contactForm.fullName,
+        from_email: contactForm.email,
+        message: contactForm.message,
+        to_name: 'Om Sathe',
+    };
+
+    emailjs.send(serviceId, templateId, templateParams, publicKey)
+      .then((response) => {
+        console.log('SUCCESS!', response.status, response.text);
+        showToast("Message sent successfully! I'll get back to you soon.");
+        
+        // Reset form
+        setContactForm({
+          fullName: '',
+          email: '',
+          message: ''
+        });
+        setContactErrors({});
+      })
+      .catch((error) => {
+        console.error('FAILED...', error);
+        showToast("Failed to send message. Please try again later.", "error");
+      })
+      .finally(() => {
+        setIsSending(false); // Stop loading
+      });
   };
 
   // Mobile menu toggle
@@ -296,7 +377,7 @@ export default function Home() {
               <a href="#projects">Projects</a>
             </li>
             <li>
-              <a href="mailto:omsathe0777@gmail.com" className="button">Contact Me</a>
+              <a href="#contact" className="button">Contact Me</a>
             </li>
           </ul>
           <a href="#" className="mobile-toggle" onClick={toggleMobileMenu}>
@@ -438,6 +519,7 @@ export default function Home() {
                 <li>TensorFlow</li>
                 <li>PyTorch</li>
                 <li>OpenCV</li>
+                <li>YOLO</li>
                 <li>XGBoost</li>
                 <li>Numpy & Pandas</li>
                 <li>Ollama</li>
@@ -451,25 +533,23 @@ export default function Home() {
               </ul>
             </div>
             <div className="right-column">
-              <h3> A bit more about Me</h3>
+              <h3> Littel about Me</h3>
               <p>
-              I am a highly driven and results-focused Python Developer with a clear commitment
-               to applying advanced technical skills to create tangible, real-world solutions. 
-               My foundation rests on a blend of theoretical knowledge and critical hands-on experience, 
-               most recently demonstrated through a significant developer internship. During this role, I was 
-               instrumental in maintaining the company's core digital presence, actively managing and updating 
-               content across key websites and applications. This required a proactive approach to research and 
-               implementing recent technologies to modernize platforms and optimize user experience, all
-                while ensuring platform stability through rigorous debugging and comprehensive code
-                 documentation. Beyond my technical contributions, I possess a unique and extensive 
-                 leadership track record. I currently serve as the Vice President of a large, 90+ members Rotaract 
-                 organization, where my responsibilities include directing strategic operations, mentoring teams,
-                  and successfully orchestrating initiatives that have collectively generated over ₹1 Lakh for
-                   charitable causes. My deep-seated capacity for discipline and strategic planning is uniquely
-                    reinforced by my competitive background as a State-level Professional Wrestler. I am now
-                     seeking a challenging entry-level developer role where this powerful combination of practical
-                      development experience, advanced technical expertise, and proven strategic
-               leadership can immediately contribute to the success of an innovative IT team.
+             I view software development as a collaborative craft where technical skills meet real-world impact.
+              As a Full Stack & Python Developer, I don’t just write code—I look for ways to make the entire team’s 
+              life easier and the product better. During my recent internship, this proactive mindset led me to engineer
+               a solution that eliminated 100% of third-party API costs, proving that I’m always hunting for efficiency and value.
+
+What makes me an interesting addition to any team is the energy I bring to the table. I 
+thrive in environments where I can tackle new challenges head-on, whether it’s debugging 
+a critical issue or brainstorming a creative feature. I’m the team member who dives deep into 
+the documentation to find the best solution and brings a genuine enthusiasm to every stand-up 
+meeting. I believe that a great developer elevates the people around them, not just the code base.
+
+My discipline extends far beyond the screen. I bring the same grit from the wrestling mat, where 
+I compete as a District Champion, to solving complex technical problems. Leading a 90+member Rotaract
+team as Vice President has also shaped me into a leader who values empathy and clear communication. I’m 
+looking for a role where I can not only grow as a developer but also contribute to a culture of innovation and success.
               </p>
             </div>
           </div>
@@ -553,14 +633,14 @@ export default function Home() {
         <section className="chatbot containar animate-on-scroll">
           <h2>
             <small>
-              Talk to my AI
+              Talk to
             </small>
-            chatbot
+            OMI
           </h2>
           <div className="chatbot-blue">
             <div className="chat-info">
               <h3>My AI Assistant</h3>
-              <p>She is my assistant Omi.She knows all my skills and About my Acadamics and Experiences.She also have my Resume.
+              <p>She is Omi. Omi knows all my skills and About my Acadamics and Experiences.She also have my Resume.
                 You can talk to her about me and ask her questions about me.
                 To get better idea about who i am and about my goals and projects.
               </p>
@@ -592,6 +672,67 @@ export default function Home() {
               </form>
               {formErrors.message && <p className="error-message">{formErrors.message}</p>}
             </div>
+          </div>
+        </section>
+
+        {/* Contact Form Section */}
+        <section id="contact" className="contact-section containar animate-on-scroll">
+          <h2>
+            <small>Get In Touch</small>
+            Contact Me
+          </h2>
+          <div className="contact-container">
+            <form onSubmit={submitContactForm} className="contact-form">
+              <div className="form-group">
+                <label htmlFor="fullName">Your Name</label>
+                <input
+                  type="text"
+                  id="fullName"
+                  value={contactForm.fullName}
+                  onChange={(e) => setContactForm({...contactForm, fullName: e.target.value})}
+                  className={contactErrors.fullName ? 'input-error' : ''}
+                  placeholder="Bhupendra jogi"
+                  disabled={isSending}
+                />
+                {contactErrors.fullName && <p className="error-message">{contactErrors.fullName}</p>}
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="email">Your Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  value={contactForm.email}
+                  onChange={(e) => setContactForm({...contactForm, email: e.target.value})}
+                  className={contactErrors.email ? 'input-error' : ''}
+                  placeholder="Om@example.com"
+                  disabled={isSending}
+                />
+                {contactErrors.email && <p className="error-message">{contactErrors.email}</p>}
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="message">Message for Om</label>
+                <textarea
+                  id="message"
+                  value={contactForm.message}
+                  onChange={(e) => setContactForm({...contactForm, message: e.target.value})}
+                  className={contactErrors.message ? 'input-error' : ''}
+                  placeholder="Hi Om, I'd like to discuss..."
+                  disabled={isSending}
+                />
+                {contactErrors.message && <p className="error-message">{contactErrors.message}</p>}
+              </div>
+
+              <button 
+                type="submit" 
+                className="button black submit-btn"
+                disabled={isSending}
+                style={{ opacity: isSending ? 0.7 : 1, cursor: isSending ? 'not-allowed' : 'pointer' }}
+              >
+                {isSending ? 'Sending...' : 'Send Message'}
+              </button>
+            </form>
           </div>
         </section>
       </main>
