@@ -1,6 +1,8 @@
 "use client";
+import FluidBackground from "./FluidBackground"; 
 import { useState, useEffect, useRef } from "react";
-// REMOVED TOP LEVEL IMPORT TO FIX SSR ERROR
+// IMPORT THE FLUID COMPONENT (Assumes it is in the same folder as page.js)
+import ResumeEnvelope from "./ResumeEnvelope";
 import "./globals.css";
 
 export default function Home() {
@@ -14,8 +16,7 @@ export default function Home() {
     }
   ]);
 
-  // NEW STATES
-  const [darkMode, setDarkMode] = useState(false);
+  // STATES (Removed darkMode)
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
@@ -36,7 +37,7 @@ export default function Home() {
   });
   const [contactErrors, setContactErrors] = useState({});
 
-  // Projects data for modal
+  // Projects data
   const projectsData = [
     { id: 1, title: "Machine learning To predict Suicide rate", description: "Advanced machine learning project utilizing TensorFlow and Python for predictive analytics for Farmers suicide rate on Geografical level.", tech: ["Python", "ML", "streamlit", "XGBoost"], img: "./imgs/p4.jpg", link: "https://github.com/OMx0777/Farmer_Suicide_Risk_Predictor", vdlink: "https://youtu.be/MBLSE1GMEho?si=pEKjLiMXuJr0UXFT" },
     { id: 2, title: "Offline Code Generation App", description: "Full stack code developer tool using Self finetuned deepseek LLM for Security and Privacy.", tech: ["Python", "Ollama", "LLM", "HuggingFace"], img: "./imgs/p2.jpg", link: "https://github.com/OMx0777/offline-finetuned-coder-AI", vdlink: "https://youtu.be/6aF9wwdzKMY?si=Jef-bpxBOaNcdCq5" },
@@ -64,7 +65,7 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Intersection Observer for scroll animations
+  // Intersection Observer
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -84,16 +85,7 @@ export default function Home() {
     return () => observer.disconnect();
   }, [loading]);
 
-  // Dark mode toggle
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark-mode');
-    } else {
-      document.documentElement.classList.remove('dark-mode');
-    }
-  }, [darkMode]);
-
-  // Typing animation for hero text
+  // Typing animation
   useEffect(() => {
     if (!loading && heroTextRef.current) {
       const text = "Om";
@@ -183,8 +175,8 @@ export default function Home() {
     return Object.keys(errors).length === 0;
   };
 
-  // Submit contact form (EMAILJS INTEGRATION FIXED FOR SSR)
-  const submitContactForm = async (e) => { // Added async here
+  // Submit contact form
+  const submitContactForm = async (e) => { 
     e.preventDefault();
     
     if (!validateContactForm()) {
@@ -192,9 +184,8 @@ export default function Home() {
       return;
     }
 
-    setIsSending(true); // Start loading
+    setIsSending(true);
 
-    // Import EmailJS dynamically here to prevent server crashes
     const emailjs = (await import('@emailjs/browser')).default;
 
     const serviceId = 'service_b799y0f';
@@ -213,7 +204,6 @@ export default function Home() {
         console.log('SUCCESS!', response.status, response.text);
         showToast("Message sent successfully! I'll get back to you soon.");
         
-        // Reset form
         setContactForm({
           fullName: '',
           email: '',
@@ -226,7 +216,7 @@ export default function Home() {
         showToast("Failed to send message. Please try again later.", "error");
       })
       .finally(() => {
-        setIsSending(false); // Stop loading
+        setIsSending(false); 
       });
   };
 
@@ -279,34 +269,13 @@ export default function Home() {
 
   return (
     <>
-      {/* Particles Background */}
-      <div className="particles">
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={i}
-            className="particle"
-            style={{
-              position: 'absolute',
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 20}s`,
-              animationDuration: `${15 + Math.random() * 10}s`
-            }}
-          />
-        ))}
-      </div>
+      {/* FLUID BACKGROUND: No darkMode prop needed anymore */}
+      <FluidBackground />
 
       {/* Progress Bar */}
       <div className="progress-bar" style={{ width: `${scrollProgress}%` }} />
 
-      {/* Dark Mode Toggle */}
-      <button 
-        className="dark-mode-toggle"
-        onClick={() => setDarkMode(!darkMode)}
-        title="Toggle Dark Mode"
-      >
-        {darkMode ? '☀️' : '🌙'}
-      </button>
+      {/* Removed Dark Mode Toggle Button */}
 
       {/* Back to Top Button */}
       <button 
@@ -362,26 +331,26 @@ export default function Home() {
       {/* Header */}
       <header>
         <a href="#" className="logo-holder">
-          <div className="logo">OM</div>
+          <img src="./imgs/omnobgprof2.png" alt="Logo" className="logo-img" />
           <div className="logo-text">My Portfolio website</div>
         </a>
         <nav>
           <ul id="menu" className={menuOpen ? "active" : ""}>
             <li>
-              <a href="#">Home</a>
+              <a href="#" className="btn-rainbow-fast">Home</a>
             </li>
             <li>
-              <a href="#skills">Skills</a>
+              <a href="#skills" className="btn-rainbow-fast">Skills</a>
             </li>
             <li>
-              <a href="#projects">Projects</a>
+              <a href="#projects" className="btn-rainbow-fast">Projects</a>
             </li>
             <li>
-              <a href="#contact" className="button">Contact Me</a>
+              <a href="#contact" className="button btn-rainbow-fast">Contact Me</a>
             </li>
           </ul>
           <a href="#" className="mobile-toggle" onClick={toggleMobileMenu}>
-            <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <svg className="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="M5 7h14M5 12h14M5 17h10"/>
             </svg>
           </a>
@@ -401,14 +370,18 @@ export default function Home() {
               My technical foundation is amplified by 
               elite Problem solving & leadership skills <span>I seek an IT role valuing high performance and strategic direction.</span>
             </p>
-            <div className="call-to-action">
-              <a href="./OmSathe.pdf" className="button black" onClick={handleResumeDownload}>
-                View Resume
-              </a>
-              <a href="mailto:omsathe0777@gmail.com" className="button white">
-                Contact Me
-              </a>
+
+
+            <div className="call-to-action" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+<a href="mailto:Om.Sathe23@iccs.ac.in" className="btn btn-rainbow-static">
+    Contact Me
+  </a>
+            <div style={{ position: 'relative', width: '190px', height: '30px' }}>
+            <ResumeEnvelope onClick={handleResumeDownload} />
             </div>
+
+  
+</div>
             <div className="social-links">
               <a href="https://github.com/OMx0777">
                 <img src="./imgs/github.png" alt="Github" width="48" />
@@ -422,8 +395,19 @@ export default function Home() {
             </div>
           </div>
           <div className="hero-yellow">
-            <img src="./imgs/omnobg692.png" alt="om-foto" width="105%" height="120%"/>
-          </div>
+  <video 
+    autoPlay 
+    loop 
+    muted 
+    playsInline
+    className="hero-video"
+    style={{ playbackRate: 0.5 }}
+  >
+    <source src="./imgs/marvelbg.mp4" type="video/mp4" />
+    <source src="./imgs/marvelbg.webm" type="video/webm" />
+  </video>
+  <img src="./imgs/omnobg692.png" alt="om-foto" width="105%" height="120%"/>
+</div>
         </section>
         <section className="logos containar animate-on-scroll">
           <div className="marquee" style={{ '--marquee-speed': `${marqueeSpeed}s` }}>
@@ -533,24 +517,25 @@ export default function Home() {
               </ul>
             </div>
             <div className="right-column">
-              <h3> Littel about Me</h3>
+              <h4>Littel About Me</h4>
               <p>
              I view software development as a collaborative craft where technical skills meet real-world impact.
               As a Full Stack & Python Developer, I don’t just write code—I look for ways to make the entire team’s 
               life easier and the product better. During my recent internship, this proactive mindset led me to engineer
                a solution that eliminated 100% of third-party API costs, proving that I’m always hunting for efficiency and value.
 
-What makes me an interesting addition to any team is the energy I bring to the table. I 
-thrive in environments where I can tackle new challenges head-on, whether it’s debugging 
-a critical issue or brainstorming a creative feature. I’m the team member who dives deep into 
-the documentation to find the best solution and brings a genuine enthusiasm to every stand-up 
-meeting. I believe that a great developer elevates the people around them, not just the code base.
+              What makes me an interesting addition to any team is the energy I bring to the table. I 
+              thrive in environments where I can tackle new challenges head-on, whether it’s debugging 
+              a critical issue or brainstorming a creative feature. I’m the team member who dives deep into 
+              the documentation to find the best solution and brings a genuine enthusiasm to every stand-up 
+              meeting. I believe that a great developer elevates the people around them, not just the code base.
 
-My discipline extends far beyond the screen. I bring the same grit from the wrestling mat, where 
-I compete as a District Champion, to solving complex technical problems. Leading a 90+member Rotaract
-team as Vice President has also shaped me into a leader who values empathy and clear communication. I’m 
-looking for a role where I can not only grow as a developer but also contribute to a culture of innovation and success.
+            My discipline extends far beyond the screen. I bring the same grit from the wrestling mat, where 
+            I compete as a District Champion, to solving complex technical problems. Leading a 90+member Rotaract
+            team as Vice President has also shaped me into a leader who values empathy and clear communication. I’m 
+            looking for a role where I can not only grow as a developer but also contribute to a culture of innovation and success.
               </p>
+              
             </div>
           </div>
         </section>
@@ -647,7 +632,21 @@ looking for a role where I can not only grow as a developer but also contribute 
               <p>You can also download my resume here if you want to take a look at it.
                 I'm currently looking for new opportunities so if you have a requirement and 
                 you think I'd be a good fit for, please get in touch!</p>
-              <a href="./OmSathe.pdf" className="button black" onClick={handleResumeDownload}>Download Resume</a>
+
+
+                  <div style={{ 
+                    position: 'relative', 
+                    width: '120px', 
+                    height: '100px', 
+                    marginTop: '20px',
+                    marginLeft: '160px', /* <--- MOVED SLIGHTLY RIGHT */
+                    display: 'flex', 
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    <ResumeEnvelope onClick={handleResumeDownload} />
+                  </div>
+
             </div>
             <div className="chat-box">
               <div className="scroll-area">
@@ -739,3 +738,4 @@ looking for a role where I can not only grow as a developer but also contribute 
     </>
   );
 }
+//6969 yellow

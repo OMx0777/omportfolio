@@ -20,18 +20,7 @@
     --transition: all 0.3s ease;
 }
 
-.dark-mode {
-    --base: #ddd;
-    --base-100: #222;
-    --base-400: #aaa;
-    --base-800: #fff;
-    --yellow: #ffd700;
-    --blue: #4da6ff;
-}
-
-.dark-mode .button.white {
-  color: var(--base-100);
-}
+/* REMOVED DARK MODE BLOCKS HERE */
 
 body {
     font-family: "Open Sans", sans-serif;
@@ -40,38 +29,13 @@ body {
     font-size:20px;
     padding-bottom: 100px;
     transition: var(--transition);
-    background-color: var(--base-100);
+    
+    /* CRITICAL: Transparent so fluid background is visible */
+    background-color: transparent; 
+    
     color: var(--base-800);
     position: relative;
     overflow-x: hidden;
-}
-
-/* Particles Background */
-.particles {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0;
-}
-
-.particle {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: rgb(255, 255, 255);
-    border-radius: 50%;
-    opacity: 0.3;
-    animation: float 20s infinite;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0) translateX(0); }
-    25% { transform: translateY(-100px) translateX(50px); }
-    50% { transform: translateY(-200px) translateX(-50px); }
-    75% { transform: translateY(-100px) translateX(100px); }
 }
 
 /* Progress Bar */
@@ -85,25 +49,7 @@ body {
     transition: width 0.1s ease;
 }
 
-/* Dark Mode Toggle */
-.dark-mode-toggle {
-    position: fixed;
-    top: 20px;
-    right: 10px;
-    z-index: 1000;
-    background: var(--base-800);
-    color: var(--base-100);
-    border: none;
-    padding: 10px 15px;
-    border-radius: 50px;
-    cursor: pointer;
-    font-size: 20px;
-    transition: var(--transition);
-}
-
-.dark-mode-toggle:hover {
-    transform: scale(1.1);
-}
+/* REMOVED DARK MODE TOGGLE BUTTON STYLES HERE */
 
 /* Back to Top Button */
 .back-to-top {
@@ -288,21 +234,18 @@ header{
     color: var(--base-800);
 }
 
-.logo-holder .logo{
-    display:flex;
-    align-items:center;
-    justify-content: center;
-    font-size: 32px;
-    background-color: var(--base-800);
-    color: var(--base-100);
+.logo-holder .logo-img {
     height: 64px;
     width: 64px;
     margin-right: 20px;
-    border-radius: 50%;
+    object-fit: cover;   /* Ensures image covers the circle without stretching */
+    border-radius: 40%;  /* Makes your square PNG into a circle */
 }
 
-.logo-holder .logo-text{
-    flex:1;
+/* Optional: If your PNG is transparent and you still want the black background */
+.logo-holder .logo-img.with-bg {
+    background-color: var(--base-800);
+    padding: 10px;       /* Adjust padding to shrink the logo inside the circle */
 }
 
 nav{
@@ -399,11 +342,6 @@ nav ul.active {
         top: 20px;
         right: 20px;
     }
-    
-    .dark-mode-toggle {
-        top: 80px;
-        right: 20px;
-    }
 }
 
 .button{
@@ -424,13 +362,16 @@ nav ul.active {
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
-.button.white{
-    background-color: white;
-    color: var(--base-800);
+.btn-rainbow-static {
+    background-image: linear-gradient(90deg, #00C0FF 0%, #FFCF00 49%, #FC4F4F 80%, #00C0FF 100%);
+    color: white; 
+    background-color: transparent; 
 }
 
-.button.white:hover{
-    background-color: var(--base);
+.btn-rainbow-static:hover {
+    background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet, red);
+    animation: slidebg 5s linear infinite;
+    transform: translateY(-2px);
 }
 
 .button.black{
@@ -481,9 +422,19 @@ section{
     }
 }
 
-.hero .hero-blue{
-    flex:1;
-    background-color: gold;
+.hero .hero-blue {
+    flex: 1;
+    
+    /* Transparent Gold (0.3 = 30% visible) */
+    background-color: rgba(255, 215, 0, 0.8);
+    
+    /* Frosted Glass Effect */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    
+    /* Optional: A subtle border to help the shape stand out */
+    border: 1px solid rgba(255, 215, 0, 0.4);
+
     border-radius: 30px;
     padding: 30px;
     display: flex;
@@ -494,12 +445,6 @@ section{
 .hero .hero-blue span{
     display: inline;
 }
-
-/*@media (max-width:768px) {
-    .hero .hero-blue span{
-        display: none;
-    }
-}  he hyamule span disat nahi om la span madhun kadhu shakto pn jaude*/
 
 .hero .hero-blue .call-to-action{
     margin-top: 20px;
@@ -517,18 +462,58 @@ section{
 
 .hero .hero-yellow{
     flex:1;
-    background-color: rgb(95, 26, 26);
+    background-color: rgb(95, 26, 26); /* This stays as fallback while video loads */
     border-radius:30px;
     padding: 0px 30px;
     display: flex;
     justify-content: center;
     align-items: flex-end;
+    position: relative; /* Important for video positioning */
+    overflow: visible; /* CHANGED FROM hidden - allows image to pop out! */
+}
+
+.hero .hero-yellow .hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Makes video cover entire area */
+    border-radius: 30px; /* Match parent border radius */
+    z-index: 0; /* BEHIND everything - lowest layer */
+    opacity: 0; /* Start invisible */
+    animation: fadeInVideo 0.5s ease-in 0.3s forwards; /* Fade in after 0.3s */
+}
+
+/* Fade in animation for video */
+@keyframes fadeInVideo {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .hero .hero-yellow img{
     margin-top: -60px;
     max-width: 390px;
     margin-bottom: 0px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Optional: Add a subtle overlay to ensure image visibility */
+.hero .hero-yellow::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2); /* Dark overlay - adjust opacity as needed */
+    z-index: 1;
+    border-radius: 30px;
 }
 
 .logos{
@@ -590,8 +575,16 @@ section{
 }
 
 .speed-btn:hover:not(:disabled) {
+    /* Overrides the background with the Rainbow 1 Gradient */
+    background-image: linear-gradient(90deg, #00C0FF 0%, #FFCF00 49%, #FC4F4F 80%, #00C0FF 100%);
+    
+    /* Applies the animation defined in the button library */
+    animation: slidebg 5s linear infinite;
+    
+    /* Keeps original hover properties */
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    color: var(--base-100);
 }
 
 .speed-btn:disabled {
@@ -642,11 +635,39 @@ h3{
     color: var(--base-800);
 }
 
-.skills .holder-blue{
-    background-color: gold;
+.skills .holder-blue {
+/* TRANSPARENT VIVID RAINBOW (Glass Effect) */
+    background: linear-gradient(
+        270deg,
+        rgba(255, 0, 0, 0.25),      /* Red (25% visible) */
+        rgba(255, 127, 0, 0.25),    /* Orange */
+        rgba(255, 255, 0, 0.25),    /* Yellow */
+        rgba(0, 255, 0, 0.25),      /* Green */
+        rgba(0, 0, 255, 0.25),      /* Blue */
+        rgba(75, 0, 130, 0.25),     /* Indigo */
+        rgba(148, 0, 211, 0.25),    /* Violet */
+        rgba(255, 0, 0, 0.25)       /* Red Loop */
+    );
+    
+    /* This blurs the Fluid Background underneath for a frosted glass look */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px); /* For Safari support */
+    
+    /* Keep the animation running */
+    background-size: 400% 400%;
+    animation: softRainbowMove 10s linear infinite;
+    
+    /* Since background is light/transparent, use Black text for contrast */
+    color: black; 
+    
+    /* Add a subtle white border to make the glass edges pop */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    
+    /* Original Layout Styles */
     border-radius: 30px;
     padding: 30px;
     display: flex;
+    border: 1px solid rgba(255,255,255,0.5); /* Adds a subtle glass border */
 }
 
 @media (max-width:1024px) {
@@ -695,14 +716,42 @@ h3{
     }
 }
 
-.work-experience .jobs article{
+.work-experience .jobs article {
+/* TRANSPARENT VIVID RAINBOW (Glass Effect) */
+    background: linear-gradient(
+        270deg,
+        rgba(255, 0, 0, 0.25),      /* Red (25% visible) */
+        rgba(255, 127, 0, 0.25),    /* Orange */
+        rgba(255, 255, 0, 0.25),    /* Yellow */
+        rgba(0, 255, 0, 0.25),      /* Green */
+        rgba(0, 0, 255, 0.25),      /* Blue */
+        rgba(75, 0, 130, 0.25),     /* Indigo */
+        rgba(148, 0, 211, 0.25),    /* Violet */
+        rgba(255, 0, 0, 0.25)       /* Red Loop */
+    );
+    
+    /* This blurs the Fluid Background underneath for a frosted glass look */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px); /* For Safari support */
+    
+    /* Keep the animation running */
+    background-size: 400% 400%;
+    animation: softRainbowMove 10s linear infinite;
+    
+    /* Since background is light/transparent, use Black text for contrast */
+    color: black; 
+    
+    /* Add a subtle white border to make the glass edges pop */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+
+    /* Original Layout Styles */
     margin: 0 auto;
     max-width: 500px;
-    background-color: gold;
     padding: 50px;
     border-radius: 30px;
-    flex:1;
+    flex: 1;
     transition: var(--transition);
+    border: 1px solid rgba(255,255,255,0.5);
 }
 
 .work-experience .jobs article:hover{
@@ -848,12 +897,22 @@ h3{
         grid-row: span 2;
     }
 }
-.chatbot .chatbot-blue{
-    background-color: maroon;
+.chatbot .chatbot-blue {
+    /* 0.3 means 30% visible (Very transparent) */
+    /* You can change 0.3 to 0.5 for half-transparent, or 0.8 for mostly solid */
+    background-color: rgba(255, 215, 0, 0.3);
+
+    /* Optional: Adds a blur to the background behind it (Frosted Glass) */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    
+    /* Optional: Adds a subtle white border to define the edges */
+    border: 1px solid rgba(255, 255, 255, 0.4);
+
     border-radius: 30px;
     padding: 30px;
-    gap:30px;
-    display:flex;
+    gap: 30px;
+    display: flex;
 }
 
 @media (max-width:1024px) {
@@ -961,7 +1020,7 @@ h3{
 
 .chatbot .chatbot-blue .chat-box .chat-message input:focus{
     outline:none;
-    background-color:white;
+    background-color: white;
     border:1px solid var(--base-100);
 }
 
@@ -1003,7 +1062,7 @@ h3{
 
 /* Contact Form Styles */
 .contact-section {
-    background-color: var(--blue-100);
+    background-color: transparent;
     border-radius: 30px;
     padding: 60px 30px;
     margin-top: 60px;
@@ -1073,3 +1132,281 @@ h3{
         padding: 30px 20px;
     }
 }
+/* =========================================
+   MY CUSTOM EFFECTS LIBRARY
+   (Restored Original Look + Rainbow Hover)
+   ========================================= */
+
+/* --- 1. RAINBOW BUTTONS --- */
+
+/* Animation Definition */
+@keyframes slidebg {
+  to { background-position: 20vw; }
+}
+
+/* Base Button Structure - MATCHES YOUR ORIGINAL STYLE */
+.btn {
+    display: inline-block;
+    padding: 10px 30px;
+    
+    /* RESTORED: Your original rounded corners */
+    border-radius: 10px; 
+    
+    /* RESTORED: Your original pure black background */
+    background-color: #000; 
+    color: #fff;
+    
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 16px;
+    border: none;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    text-align: center;
+    font-family: inherit; 
+    
+    /* RESTORED: Your original shadow */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Style 1: Smooth Rainbow */
+/* Normal state inherits from .btn (Black & Rounded) */
+.btn-rainbow-smooth:hover {
+    /* Only changes on hover */
+    background-image: linear-gradient(90deg, #00C0FF 0%, #FFCF00 49%, #FC4F4F 80%, #00C0FF 100%);
+    animation: slidebg 5s linear infinite;
+    color: #fff;
+    transform: translateY(-2px); /* Adds your original lift effect */
+}
+
+/* Style 2: Neon Rainbow */
+.btn-rainbow-neon:hover {
+    background-image: linear-gradient(
+        to right, 
+        #E7484F, #F68B1D, #FCED00, #009E4F, #00AAC3, #732982
+    );
+    animation: slidebg 5s linear infinite;
+    transform: translateY(-2px);
+}
+
+/* Style 3: Fast Rainbow */
+.btn-rainbow-fast:hover {
+    background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet, red);
+    animation: slidebg 2s linear infinite;
+    transform: translateY(-2px);
+}
+
+
+/* --- 2. SPOTLIGHT TEXT EFFECT --- */
+
+.text-spotlight {
+    font-family: inherit;   /* Uses your default font */
+    font-weight: 900;       /* Thick text for visibility */
+    text-transform: uppercase;
+    font-size: 8rem; 
+    text-align: center;
+    position: relative;
+    
+    /* Dark background required for effect */
+    background-color: #171717; 
+    color: #000; 
+    
+    /* Centering Layout */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin: 0;
+    line-height: 0.9;
+}
+
+.text-spotlight::before {
+    content: attr(data-text); 
+    position: absolute;
+    z-index: 10;
+    
+    /* The Rainbow Gradient */
+    background: linear-gradient(#f70000, #f89200, #f8f501, #038f00,#0168f8, #a200f7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-size: 100% 90%;
+    
+    /* The Spotlight Shape */
+    clip-path: ellipse(120px 120px at -2.54% -9.25%);
+    -webkit-clip-path: ellipse(120px 120px at -2.54% -9.25%);
+    
+    animation: spotlight-swing 5s infinite alternate;
+}
+
+@keyframes spotlight-swing {
+    0% {
+        -webkit-clip-path: ellipse(120px 120px at -2.54% -9.25%);
+        clip-path: ellipse(120px 120px at -2.54% -9.25%);
+    }
+    50% {
+        -webkit-clip-path: ellipse(120px 120px at 49.66% 64.36%);
+        clip-path: ellipse(120px 120px at 49.66% 64.36%);
+    }
+    100% {
+        -webkit-clip-path: ellipse(120px 120px at 102.62% -1.61%);
+        clip-path: ellipse(120px 120px at 102.62% -1.61%);
+    }
+}
+/* =========================================
+   RESUME ENVELOPE ANIMATION
+   ========================================= */
+
+.letter-image {
+    position: absolute;        /* Takes it out of the layout flow */
+    top: 50%;                  /* Centers it vertically */
+    left: 50%;                 /* Centers it horizontally */
+    width: 200px;
+    height: 200px;
+    /* This centers it AND scales it. You can change 0.5 to 0.6 if you want it bigger */
+    transform: translate(-50%, -50%) scale(0.7); 
+    cursor: pointer;
+    z-index: 10;
+}
+
+.animated-mail {
+    position: absolute;
+    height: 150px;
+    width: 200px;
+    transition: .4s;
+}
+
+.animated-mail .body {
+    position: absolute;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 0 100px 200px;
+    border-color: transparent transparent #e95f55 transparent;
+    z-index: 2;
+}
+
+.animated-mail .top-fold {
+    position: absolute;
+    top: 50px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 50px 100px 0 100px;
+    transform-origin: 50% 0%;
+    transition: transform .4s .4s, z-index .2s .4s;
+    border-color: #cf4a43 transparent transparent transparent;
+    z-index: 2;
+}
+
+.animated-mail .back-fold {
+    position: absolute;
+    bottom: 0;
+    width: 200px;
+    height: 100px;
+    background: #cf4a43;
+    z-index: 0;
+}
+
+.animated-mail .left-fold {
+    position: absolute;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 50px 0 50px 100px;
+    border-color: transparent transparent transparent #e15349;
+    z-index: 2;
+}
+
+.animated-mail .letter {
+    left: 20px;
+    bottom: 0px;
+    position: absolute;
+    width: 160px;
+    height: 60px;
+    background: white;
+    z-index: 1;
+    overflow: hidden;
+    transition: .4s .2s;
+}
+
+.animated-mail .letter .letter-border {
+    height: 10px;
+    width: 100%;
+    background: repeating-linear-gradient(
+        -45deg,
+        #000000,
+        #000000 8px,
+        transparent 8px,
+        transparent 18px
+    );
+}
+
+/* STYLING FOR THE TEXT "RESUME" */
+.animated-mail .letter .letter-text {
+    font-family: sans-serif;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 900;
+    color: #000000;
+    margin-top: 10px;
+    letter-spacing: 2px;
+}
+
+.animated-mail .letter .letter-subtext {
+    font-family: sans-serif;
+    text-align: center;
+    font-size: 9px;
+    color: #000000;
+    margin-top: 0px;
+}
+
+.animated-mail .letter .letter-stamp {
+    margin-top: 30px;
+    margin-left: 120px;
+    border-radius: 100%;
+    height: 30px;
+    width: 30px;
+    background: #000000;
+    opacity: 0.3;
+}
+
+.shadow {
+    position: absolute;
+    top: 200px;
+    left: 50%;
+    width: 400px;
+    height: 30px;
+    transition: .4s;
+    transform: translateX(-50%);
+    border-radius: 100%;
+    background: radial-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.0), rgba(0,0,0,0.0));
+}
+
+/* Hover Effects */
+.letter-image:hover .animated-mail {
+    transform: translateY(50px);
+}
+
+.letter-image:hover .animated-mail .top-fold {
+    transform: rotateX(180deg);
+    z-index: 0;
+}
+
+.letter-image:hover .animated-mail .letter {
+    height: 180px;
+}
+
+.letter-image:hover .shadow {
+    width: 250px;
+}
+/* =========================================
+   SOFT RAINBOW ANIMATION KEYFRAMES
+   ========================================= */
+@keyframes softRainbowMove {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+/*6969 logo-holder*/
