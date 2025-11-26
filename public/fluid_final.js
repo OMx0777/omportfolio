@@ -18,7 +18,7 @@ let config = {
     PRESSURE_ITERATIONS: 20,
     CURL: 30,
     SPLAT_RADIUS: 0.25,
-    SPLAT_FORCE: 6000,
+    SPLAT_FORCE: 3000,
     SHADING: true,
     COLORFUL: true,
     COLOR_UPDATE_SPEED: 10,
@@ -28,12 +28,12 @@ let config = {
     BLOOM: true,
     BLOOM_ITERATIONS: 8,
     BLOOM_RESOLUTION: 256,
-    BLOOM_INTENSITY: 0.8,
-    BLOOM_THRESHOLD: 0.6,
-    BLOOM_SOFT_KNEE: 0.7,
-    SUNRAYS: true,
+    BLOOM_INTENSITY: 0.4,
+    BLOOM_THRESHOLD: 0.3,
+    BLOOM_SOFT_KNEE: 0.3,
+    SUNRAYS: true, // chutiyagiri surya banavtay
     SUNRAYS_RESOLUTION: 196,
-    SUNRAYS_WEIGHT: 1.0,
+    SUNRAYS_WEIGHT: 0.3,
 }
 
 function pointerPrototype () {
@@ -1240,9 +1240,9 @@ function splatPointer (pointer) {
 function multipleSplats (amount) {
     for (let i = 0; i < amount; i++) {
         const color = generateColor();
-        color.r *= 10.0;
-        color.g *= 10.0;
-        color.b *= 10.0;
+        color.r *= 0.0;//he te starting la color chi chutiya giri
+        color.g *= 0.0;
+        color.b *= 0.0;
         const x = Math.random();
         const y = Math.random();
         const dx = 1000 * (Math.random() - 0.5);

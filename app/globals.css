@@ -1,7 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Open%20Sans:wght@300;400;600;800&display=swap');
 *, *::before, *::after{
     box-sizing: border-box;
     margin:0;
     padding:0;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 :root{
@@ -19,8 +24,6 @@
     --blue-800: #0a61ae;
     --transition: all 0.3s ease;
 }
-
-/* REMOVED DARK MODE BLOCKS HERE */
 
 body {
     font-family: "Open Sans", sans-serif;
@@ -44,12 +47,10 @@ body {
     top: 0;
     left: 0;
     height: 4px;
-    background: linear-gradient(90deg, var(--yellow-400), var(--blue-400));
+    background: linear-gradient(90deg, black, white);
     z-index: 9999;
     transition: width 0.1s ease;
 }
-
-/* REMOVED DARK MODE TOGGLE BUTTON STYLES HERE */
 
 /* Back to Top Button */
 .back-to-top {
@@ -195,14 +196,14 @@ body {
 /* Typing Animation */
 .typing-text {
     display: inline-block;
-    border-right: 3px solid var(--base-800);
+    border-right: 3px solid white; /* Changed to white for dark glass */
     animation: blink 0.7s infinite;
     min-width: 50px;
     min-height: 1.2em;
 }
 
 @keyframes blink {
-    0%, 50% { border-color: var(--base-800); }
+    0%, 50% { border-color: white; }
     51%, 100% { border-color: transparent; }
 }
 a{
@@ -238,14 +239,8 @@ header{
     height: 64px;
     width: 64px;
     margin-right: 20px;
-    object-fit: cover;   /* Ensures image covers the circle without stretching */
-    border-radius: 40%;  /* Makes your square PNG into a circle */
-}
-
-/* Optional: If your PNG is transparent and you still want the black background */
-.logo-holder .logo-img.with-bg {
-    background-color: var(--base-800);
-    padding: 10px;       /* Adjust padding to shrink the logo inside the circle */
+    object-fit: cover;
+    border-radius: 40%;
 }
 
 nav{
@@ -422,24 +417,48 @@ section{
     }
 }
 
+/* =======================================
+   DARK GLASS - HERO SECTION
+   ======================================= */
 .hero .hero-blue {
     flex: 1;
-    
-    /* Transparent Gold (0.3 = 30% visible) */
-    background-color: rgba(255, 215, 0, 0.8);
-    
-    /* Frosted Glass Effect */
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    
-    /* Optional: A subtle border to help the shape stand out */
-    border: 1px solid rgba(255, 215, 0, 0.4);
 
+    /* Dark Smoked Glass Gradient */
+    background: linear-gradient(
+        135deg, 
+        rgba(0, 0, 0, 0.6),  
+        rgba(0, 0, 0, 0.3)
+    );
+
+    /* Frost Effect */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    /* Shiny Edge */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+
+    /* Shadow */
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+
+    /* Force text white */
+    color: white;
+
+    /* Layout */
     border-radius: 30px;
     padding: 30px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+/* Hero Text Override */
+.hero .hero-blue h1,
+.hero .hero-blue small, 
+.hero .hero-blue p {
+    color: white !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5); 
 }
 
 .hero .hero-blue span{
@@ -462,14 +481,14 @@ section{
 
 .hero .hero-yellow{
     flex:1;
-    background-color: rgb(95, 26, 26); /* This stays as fallback while video loads */
+    background-color: rgb(95, 26, 26);
     border-radius:30px;
     padding: 0px 30px;
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    position: relative; /* Important for video positioning */
-    overflow: visible; /* CHANGED FROM hidden - allows image to pop out! */
+    position: relative;
+    overflow: visible;
 }
 
 .hero .hero-yellow .hero-video {
@@ -478,21 +497,16 @@ section{
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Makes video cover entire area */
-    border-radius: 30px; /* Match parent border radius */
-    z-index: 0; /* BEHIND everything - lowest layer */
-    opacity: 0; /* Start invisible */
-    animation: fadeInVideo 0.5s ease-in 0.3s forwards; /* Fade in after 0.3s */
+    object-fit: cover;
+    border-radius: 30px;
+    z-index: 0;
+    opacity: 0;
+    animation: fadeInVideo 0.5s ease-in 0.3s forwards;
 }
 
-/* Fade in animation for video */
 @keyframes fadeInVideo {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 .hero .hero-yellow img{
@@ -503,7 +517,6 @@ section{
     z-index: 2;
 }
 
-/* Optional: Add a subtle overlay to ensure image visibility */
 .hero .hero-yellow::before {
     content: '';
     position: absolute;
@@ -511,7 +524,7 @@ section{
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.2); /* Dark overlay - adjust opacity as needed */
+    background: rgba(0, 0, 0, 0.2);
     z-index: 1;
     border-radius: 30px;
 }
@@ -546,12 +559,8 @@ section{
 }
 
 @keyframes marquee {
-    0%{
-        transform:translateX(0);
-    }  
-    100%{
-        transform:translateX(-50%);
-    }      
+    0%{ transform:translateX(0); }  
+    100%{ transform:translateX(-50%); }      
 }
 
 .speed-controls {
@@ -575,13 +584,8 @@ section{
 }
 
 .speed-btn:hover:not(:disabled) {
-    /* Overrides the background with the Rainbow 1 Gradient */
     background-image: linear-gradient(90deg, #00C0FF 0%, #FFCF00 49%, #FC4F4F 80%, #00C0FF 100%);
-    
-    /* Applies the animation defined in the button library */
     animation: slidebg 5s linear infinite;
-    
-    /* Keeps original hover properties */
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     color: var(--base-100);
@@ -635,39 +639,35 @@ h3{
     color: var(--base-800);
 }
 
+/* =======================================
+   DARK GLASS - SKILLS SECTION
+   ======================================= */
 .skills .holder-blue {
-/* TRANSPARENT VIVID RAINBOW (Glass Effect) */
+    /* Dark Smoked Glass */
     background: linear-gradient(
-        270deg,
-        rgba(255, 0, 0, 0.25),      /* Red (25% visible) */
-        rgba(255, 127, 0, 0.25),    /* Orange */
-        rgba(255, 255, 0, 0.25),    /* Yellow */
-        rgba(0, 255, 0, 0.25),      /* Green */
-        rgba(0, 0, 255, 0.25),      /* Blue */
-        rgba(75, 0, 130, 0.25),     /* Indigo */
-        rgba(148, 0, 211, 0.25),    /* Violet */
-        rgba(255, 0, 0, 0.25)       /* Red Loop */
+        135deg, 
+        rgba(0, 0, 0, 0.6),  
+        rgba(0, 0, 0, 0.3)
     );
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    color: white; 
     
-    /* This blurs the Fluid Background underneath for a frosted glass look */
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px); /* For Safari support */
-    
-    /* Keep the animation running */
-    background-size: 400% 400%;
-    animation: softRainbowMove 10s linear infinite;
-    
-    /* Since background is light/transparent, use Black text for contrast */
-    color: black; 
-    
-    /* Add a subtle white border to make the glass edges pop */
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    
-    /* Original Layout Styles */
+    /* Layout */
     border-radius: 30px;
     padding: 30px;
     display: flex;
-    border: 1px solid rgba(255,255,255,0.5); /* Adds a subtle glass border */
+}
+
+/* Text Override for Skills */
+.skills .holder-blue h3,
+.skills .holder-blue h4,
+.skills .holder-blue p {
+    color: white !important;
 }
 
 @media (max-width:1024px) {
@@ -692,6 +692,7 @@ h3{
 .skills .holder-blue .left-column ul li{
     display:inline-block;
     background-color: rgb(0, 0, 0);
+    border: 1px solid rgba(255,255,255,0.3); /* Added border to make black buttons pop on dark glass */
     color: rgb(255, 255, 255);
     padding:10px 20px;
     border-radius:15px;
@@ -705,6 +706,7 @@ h3{
 .skills .holder-blue .right-column p{
     margin-bottom: 20px;
 }
+
 .work-experience .jobs{
     display:flex;
     gap:30px;
@@ -716,47 +718,44 @@ h3{
     }
 }
 
+/* =======================================
+   DARK GLASS - EXPERIENCE SECTION
+   ======================================= */
 .work-experience .jobs article {
-/* TRANSPARENT VIVID RAINBOW (Glass Effect) */
+    /* Dark Smoked Glass */
     background: linear-gradient(
-        270deg,
-        rgba(255, 0, 0, 0.25),      /* Red (25% visible) */
-        rgba(255, 127, 0, 0.25),    /* Orange */
-        rgba(255, 255, 0, 0.25),    /* Yellow */
-        rgba(0, 255, 0, 0.25),      /* Green */
-        rgba(0, 0, 255, 0.25),      /* Blue */
-        rgba(75, 0, 130, 0.25),     /* Indigo */
-        rgba(148, 0, 211, 0.25),    /* Violet */
-        rgba(255, 0, 0, 0.25)       /* Red Loop */
+        135deg, 
+        rgba(0, 0, 0, 0.6),  
+        rgba(0, 0, 0, 0.3)
     );
-    
-    /* This blurs the Fluid Background underneath for a frosted glass look */
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px); /* For Safari support */
-    
-    /* Keep the animation running */
-    background-size: 400% 400%;
-    animation: softRainbowMove 10s linear infinite;
-    
-    /* Since background is light/transparent, use Black text for contrast */
-    color: black; 
-    
-    /* Add a subtle white border to make the glass edges pop */
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    color: white;
 
-    /* Original Layout Styles */
+    /* Layout */
     margin: 0 auto;
     max-width: 500px;
     padding: 50px;
     border-radius: 30px;
     flex: 1;
     transition: var(--transition);
-    border: 1px solid rgba(255,255,255,0.5);
+}
+
+/* Text Override for Experience */
+.work-experience .jobs article h3,
+.work-experience .jobs article div,
+.work-experience .jobs article p,
+.work-experience .jobs article figcaption {
+    color: white !important;
 }
 
 .work-experience .jobs article:hover{
     transform: translateY(-10px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5); /* Stronger shadow on hover */
 }
 
 .work-experience .jobs article h3{
@@ -767,7 +766,6 @@ h3{
 .work-experience .jobs article div{
     font-weight: 600;
     margin-bottom: 5px;
-    color: var(--base-800);
 }
 
 .work-experience .jobs article p{
@@ -897,22 +895,36 @@ h3{
         grid-row: span 2;
     }
 }
+
+/* =======================================
+   DARK GLASS - CHATBOT SECTION
+   ======================================= */
 .chatbot .chatbot-blue {
-    /* 0.3 means 30% visible (Very transparent) */
-    /* You can change 0.3 to 0.5 for half-transparent, or 0.8 for mostly solid */
-    background-color: rgba(255, 215, 0, 0.3);
+    /* Dark Smoked Glass */
+    background: linear-gradient(
+        135deg, 
+        rgba(0, 0, 0, 0.6),  
+        rgba(0, 0, 0, 0.3)
+    );
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    color: white;
 
-    /* Optional: Adds a blur to the background behind it (Frosted Glass) */
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    
-    /* Optional: Adds a subtle white border to define the edges */
-    border: 1px solid rgba(255, 255, 255, 0.4);
-
+    /* Layout */
     border-radius: 30px;
     padding: 30px;
     gap: 30px;
     display: flex;
+}
+
+/* Text Override for Chatbot */
+.chatbot .chatbot-blue h3,
+.chatbot .chatbot-blue p {
+    color: white !important;
 }
 
 @media (max-width:1024px) {
@@ -993,6 +1005,7 @@ h3{
     flex: 1;
     word-wrap: break-word;
     overflow-wrap: break-word;
+    color: black; /* Chat messages inside the white box must be black */
 }
 
 .chatbot .chatbot-blue .chat-box .chat-message{
@@ -1073,11 +1086,27 @@ h3{
     margin: 0 auto;
 }
 
+/* =======================================
+   DARK GLASS - CONTACT FORM SECTION
+   ======================================= */
 .contact-form {
-    background: var(--base-100);
+    /* Dark Smoked Glass */
+    background: linear-gradient(
+        135deg, 
+        rgba(0, 0, 0, 0.6),  
+        rgba(0, 0, 0, 0.3)
+    );
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    color: white;
+
+    /* Layout */
     border-radius: 20px;
     padding: 40px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 .form-group {
@@ -1088,7 +1117,7 @@ h3{
     display: block;
     font-weight: 600;
     margin-bottom: 8px;
-    color: var(--base-800);
+    color: white !important; /* Force labels white */
     font-size: 16px;
 }
 
@@ -1256,151 +1285,167 @@ h3{
 /* =========================================
    RESUME ENVELOPE ANIMATION
    ========================================= */
+/* =========================================
+   DARK GLASS ENVELOPE (Big Pop-out)
+   ========================================= */
 
 .letter-image {
-    position: absolute;        /* Takes it out of the layout flow */
-    top: 50%;                  /* Centers it vertically */
-    left: 50%;                 /* Centers it horizontally */
-    width: 200px;
-    height: 200px;
-    /* This centers it AND scales it. You can change 0.5 to 0.6 if you want it bigger */
-    transform: translate(-50%, -50%) scale(0.7); 
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 160px;
+    height: 46px;
+    transform: translate(-50%, -50%);
     cursor: pointer;
     z-index: 10;
 }
 
 .animated-mail {
     position: absolute;
-    height: 150px;
-    width: 200px;
+    height: 46px;
+    width: 160px;
     transition: .4s;
 }
 
-.animated-mail .body {
-    position: absolute;
-    bottom: 0;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 0 0 100px 200px;
-    border-color: transparent transparent #e95f55 transparent;
-    z-index: 2;
-}
-
-.animated-mail .top-fold {
-    position: absolute;
-    top: 50px;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 50px 100px 0 100px;
-    transform-origin: 50% 0%;
-    transition: transform .4s .4s, z-index .2s .4s;
-    border-color: #cf4a43 transparent transparent transparent;
-    z-index: 2;
-}
-
+/* 1. BACK PLATE */
 .animated-mail .back-fold {
     position: absolute;
     bottom: 0;
-    width: 200px;
-    height: 100px;
-    background: #cf4a43;
+    width: 160px;
+    height: 46px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
     z-index: 0;
+    backdrop-filter: blur(2px);
 }
 
-.animated-mail .left-fold {
-    position: absolute;
-    bottom: 0;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 50px 0 50px 100px;
-    border-color: transparent transparent transparent #e15349;
-    z-index: 2;
-}
-
+/* 2. THE LETTER - UPDATED FOR BIGGER POP */
 .animated-mail .letter {
-    left: 20px;
+    left: 10px;
     bottom: 0px;
     position: absolute;
-    width: 160px;
-    height: 60px;
-    background: white;
+    width: 140px;
+    height: 30px; /* Starts hidden */
+    background: #ffffff;
     z-index: 1;
     overflow: hidden;
     transition: .4s .2s;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
 }
 
 .animated-mail .letter .letter-border {
-    height: 10px;
+    height: 3px;
     width: 100%;
     background: repeating-linear-gradient(
         -45deg,
-        #000000,
-        #000000 8px,
-        transparent 8px,
-        transparent 18px
+        #333,
+        #333 5px,
+        transparent 5px,
+        transparent 10px
     );
 }
 
-/* STYLING FOR THE TEXT "RESUME" */
 .animated-mail .letter .letter-text {
     font-family: sans-serif;
     text-align: center;
-    font-size: 18px;
-    font-weight: 900;
-    color: #000000;
-    margin-top: 10px;
+    font-size: 10px;
+    font-weight: 800;
+    color: #000;
+    margin-top: 5px;
     letter-spacing: 2px;
 }
 
-.animated-mail .letter .letter-subtext {
-    font-family: sans-serif;
-    text-align: center;
-    font-size: 9px;
-    color: #000000;
-    margin-top: 0px;
-}
-
-.animated-mail .letter .letter-stamp {
-    margin-top: 30px;
-    margin-left: 120px;
-    border-radius: 100%;
-    height: 30px;
-    width: 30px;
-    background: #000000;
-    opacity: 0.3;
-}
-
-.shadow {
+/* 3. FRONT POCKET (V-Shape) */
+.animated-mail .body {
     position: absolute;
-    top: 200px;
-    left: 50%;
-    width: 400px;
-    height: 30px;
-    transition: .4s;
-    transform: translateX(-50%);
-    border-radius: 100%;
-    background: radial-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.0), rgba(0,0,0,0.0));
+    bottom: 0;
+    width: 160px;
+    height: 46px;
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.05),
+        rgba(255, 255, 255, 0.01)
+    );
+    clip-path: polygon(0 0, 50% 45%, 100% 0, 100% 100%, 0 100%);
+    z-index: 2;
+    backdrop-filter: blur(3px);
+    border-radius: 0 0 5px 5px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    pointer-events: none;
 }
 
-/* Hover Effects */
+/* 4. TOP LID */
+.animated-mail .top-fold {
+    position: absolute;
+    top: 0;
+    width: 160px;
+    height: 46px;
+    background: rgba(0, 0, 0, 0.4);
+    clip-path: polygon(0 0, 50% 45%, 100% 0);
+    transform-origin: 50% 0%;
+    transition: transform .4s .4s, z-index .2s .4s;
+    z-index: 2;
+    backdrop-filter: blur(2px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* === HOVER ANIMATIONS === */
+
 .letter-image:hover .animated-mail {
-    transform: translateY(50px);
+    transform: translateY(5px);
 }
 
+/* Open lid */
 .letter-image:hover .animated-mail .top-fold {
     transform: rotateX(180deg);
     z-index: 0;
 }
 
+/* === BIGGER POP OUT === */
 .letter-image:hover .animated-mail .letter {
-    height: 180px;
+    height: 110px; /* Increased height significantly */
+    bottom: 10px;  /* Keeps the bottom anchored inside the envelope */
+    z-index: 1;    /* Stays behind the front pocket */
+}
+/* =========================================
+   DARK GLASS BUTTON (Matches Envelope)
+   ========================================= */
+.btn-dark-glass {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Geometry */
+    height: 46px;         /* Matches Envelope Height exactly */
+    padding: 0 35px;      /* Wide click area */
+    border-radius: 5px;   /* Matches Envelope corners */
+    
+    /* Dark Glass Style */
+    background: rgba(0, 0, 0, 0.5); 
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    
+    /* Text Style */
+    color: white;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    
+    /* Animation */
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
-.letter-image:hover .shadow {
-    width: 250px;
+.btn-dark-glass:hover {
+    background: rgba(255, 255, 255, 0.1); /* Lighten on hover */
+    border-color: rgba(255, 255, 255, 0.4); /* Brighter border */
+    transform: translateY(-2px); /* Slight lift */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    color: white;
+    text-decoration: none;
 }
 /* =========================================
    SOFT RAINBOW ANIMATION KEYFRAMES
@@ -1409,4 +1454,3 @@ h3{
     0% { background-position: 0% 50%; }
     100% { background-position: 100% 50%; }
 }
-/*6969 logo-holder*/

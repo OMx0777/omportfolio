@@ -3,23 +3,25 @@ import { useEffect, useRef } from "react";
 
 export default function FluidBackground() {
   const canvasRef = useRef(null);
-  const scriptLoaded = useRef(false);
 
-  // Load the script only once
   useEffect(() => {
-    if (scriptLoaded.current) return;
-
-    const script = document.createElement("script");
-    script.src = "/fluid.js"; // Loads from public/fluid.js
-    script.async = true;
-    document.body.appendChild(script);
-
-    scriptLoaded.current = true;
-
-    return () => {
-      // Optional cleanup
-      document.body.removeChild(script);
-    };
+    // 1. Check if script is already in the DOM
+    // Note: We are looking for the NEW filename
+    const existingScript = document.querySelector('script[src="/fluid_final.js"]');
+    
+    if (!existingScript) {
+      // 2. If not, create it and append it
+      const script = document.createElement("script");
+      script.src = "/fluid_final.js"; // <--- IMPORTANT: NEW NAME
+      script.async = true;
+      document.body.appendChild(script);
+    } else {
+      // 3. If it IS there, force the fluid to restart
+      // This fixes the issue where it stops when you navigate pages
+      if (window.startFluid) {
+        window.startFluid();
+      }
+    }
   }, []);
 
   return (
@@ -32,7 +34,6 @@ export default function FluidBackground() {
         width: "100vw",
         height: "100vh",
         zIndex: -1,
-        // CRITICAL: changed from 'none' to 'auto' so the canvas can detect mouse movements
         pointerEvents: "auto", 
       }}
     />

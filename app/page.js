@@ -1,7 +1,6 @@
 "use client";
 import FluidBackground from "./FluidBackground"; 
 import { useState, useEffect, useRef } from "react";
-// IMPORT THE FLUID COMPONENT (Assumes it is in the same folder as page.js)
 import ResumeEnvelope from "./ResumeEnvelope";
 import "./globals.css";
 
@@ -16,15 +15,18 @@ export default function Home() {
     }
   ]);
 
-  // STATES (Removed darkMode)
+  // STATES
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [toast, setToast] = useState(null);
   const [loading, setLoading] = useState(true);
   const [formErrors, setFormErrors] = useState({});
-  const heroTextRef = useRef(null);
   const [marqueeSpeed, setMarqueeSpeed] = useState(30);
+
+  // --- REFS (Modified) ---
+  const heroTextRef = useRef(null);
+  const videoRef = useRef(null); // <--- ADDED VIDEO REF HERE
 
   // EmailJS Loading State
   const [isSending, setIsSending] = useState(false);
@@ -105,6 +107,14 @@ export default function Home() {
       return () => clearInterval(typeInterval);
     }
   }, [loading]);
+
+  // --- NEW CODE: SET VIDEO SPEED ---
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.playbackRate = 0.5; // Sets speed to 50%
+    }
+  }, []);
+  // ---------------------------------
   
   // Toast notification
   useEffect(() => {
@@ -245,7 +255,7 @@ export default function Home() {
         alignItems: 'center',
         justifyContent: 'center',
         height: '100vh',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        background: 'black',
         color: 'white'
       }}>
         <div style={{
@@ -269,15 +279,9 @@ export default function Home() {
 
   return (
     <>
-      {/* FLUID BACKGROUND: No darkMode prop needed anymore */}
       <FluidBackground />
-
-      {/* Progress Bar */}
       <div className="progress-bar" style={{ width: `${scrollProgress}%` }} />
 
-      {/* Removed Dark Mode Toggle Button */}
-
-      {/* Back to Top Button */}
       <button 
         className={`back-to-top ${showBackToTop ? 'show' : ''}`}
         onClick={scrollToTop}
@@ -286,7 +290,6 @@ export default function Home() {
         ↑
       </button>
 
-      {/* Toast Notification */}
       {toast && (
         <div className={`toast ${toast.type}`}>
           <span>{toast.type === 'success' ? '✓' : '✕'}</span>
@@ -294,7 +297,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* Project Modal */}
       {selectedProject && (
         <div className="modal-overlay" onClick={() => setSelectedProject(null)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -328,7 +330,7 @@ export default function Home() {
           </div>
         </div>
       )}
-      {/* Header */}
+
       <header>
         <a href="#" className="logo-holder">
           <img src="./imgs/omnobgprof2.png" alt="Logo" className="logo-img" />
@@ -336,18 +338,10 @@ export default function Home() {
         </a>
         <nav>
           <ul id="menu" className={menuOpen ? "active" : ""}>
-            <li>
-              <a href="#" className="btn-rainbow-fast">Home</a>
-            </li>
-            <li>
-              <a href="#skills" className="btn-rainbow-fast">Skills</a>
-            </li>
-            <li>
-              <a href="#projects" className="btn-rainbow-fast">Projects</a>
-            </li>
-            <li>
-              <a href="#contact" className="button btn-rainbow-fast">Contact Me</a>
-            </li>
+            <li><a href="#" className="btn-rainbow-smooth">Home</a></li>
+            <li><a href="#skills" className="btn-rainbow-smooth">Skills</a></li>
+            <li><a href="#projects" className="btn-rainbow-smooth">Projects</a></li>
+            <li><a href="#contact" className="button btn-rainbow-smooth">Contact Me</a></li>
           </ul>
           <a href="#" className="mobile-toggle" onClick={toggleMobileMenu}>
             <svg className="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -356,7 +350,7 @@ export default function Home() {
           </a>
         </nav>
       </header>
-      {/* Main Content */}
+
       <main>
         <section className="hero container animate-on-scroll">
           <div className="hero-blue">
@@ -371,17 +365,28 @@ export default function Home() {
               elite Problem solving & leadership skills <span>I seek an IT role valuing high performance and strategic direction.</span>
             </p>
 
-
-            <div className="call-to-action" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-<a href="mailto:Om.Sathe23@iccs.ac.in" className="btn btn-rainbow-static">
-    Contact Me
-  </a>
-            <div style={{ position: 'relative', width: '190px', height: '30px' }}>
-            <ResumeEnvelope onClick={handleResumeDownload} />
+            {/* --- UPDATED CALL TO ACTION LAYOUT --- */}
+            <div className="call-to-action" style={{ 
+              display: 'flex', 
+              flexDirection: 'row', 
+              alignItems: 'center', 
+              gap: '20px', 
+              flexWrap: 'wrap', 
+              marginTop: '20px',
+              marginBottom: '20px'
+            }}>
+                {/* 1. DARK GLASS CONTACT BUTTON */}
+                <a href="mailto:Om.Sathe23@iccs.ac.in" className="btn-dark-glass" style={{ margin: 0 }}>
+                    Contact Me
+                </a>
+                
+                {/* 2. ENVELOPE WRAPPER (160x46px) */}
+                <div style={{ position: 'relative', width: '160px', height: '46px' }}>
+                    <ResumeEnvelope onClick={handleResumeDownload} />
+                </div>
             </div>
+            {/* ------------------------------------- */}
 
-  
-</div>
             <div className="social-links">
               <a href="https://github.com/OMx0777">
                 <img src="./imgs/github.png" alt="Github" width="48" />
@@ -390,26 +395,27 @@ export default function Home() {
                 <img src="./imgs/linkedin.png" alt="linkedin" width="48" />
               </a>
               <a href="https://www.youtube.com/@OmSathe-0777">
-                <img src="./imgs/youtube.png" alt="linkedin" width="48" />
+                <img src="./imgs/youtube.png" alt="youtube" width="48" />
               </a>
             </div>
           </div>
           <div className="hero-yellow">
-  <video 
-    autoPlay 
-    loop 
-    muted 
-    playsInline
-    className="hero-video"
-    style={{ playbackRate: 0.5 }}
-  >
-    <source src="./imgs/marvelbg.mp4" type="video/mp4" />
-    <source src="./imgs/marvelbg.webm" type="video/webm" />
-  </video>
-  <img src="./imgs/omnobg692.png" alt="om-foto" width="105%" height="120%"/>
-</div>
+            <video 
+                ref={videoRef} /* --- ADDED REF HERE --- */
+                autoPlay 
+                loop 
+                muted 
+                playsInline
+                className="hero-video"
+            >
+                <source src="./imgs/marvelbg.mp4" type="video/mp4" />
+                <source src="./imgs/marvelbg.webm" type="video/webm" />
+            </video>
+            <img src="./imgs/omnobg692.png" alt="om-foto" width="105%" height="120%"/>
+          </div>
         </section>
-        <section className="logos containar animate-on-scroll">
+
+        <section className="logos container animate-on-scroll">
           <div className="marquee" style={{ '--marquee-speed': `${marqueeSpeed}s` }}>
             <div className="track">
               <img src="./imgs/python69.png" alt="Python" width="80" height="80" />
@@ -427,6 +433,7 @@ export default function Home() {
               <img src="./imgs/java69.png" alt="java" width="80" height="80" />
               <img src="./imgs/blockchain69.png" alt="blockchain" width="80" height="80" />
               <img src="./imgs/git69.png" alt="git" width="80" height="80" />
+              {/* Duplicates for marquee */}
               <img src="./imgs/python69.png" alt="Python" width="80" height="80" />
               <img src="./imgs/html-69.png" alt="HTML" width="80" height="80" />
               <img src="./imgs/css-69.png" alt="CSS" width="80" height="80"/>
@@ -474,7 +481,8 @@ export default function Home() {
             </button>
           </div>
         </section>
-        <section id="skills" className="skills containar animate-on-scroll">
+
+        <section id="skills" className="skills container animate-on-scroll">
           <h2>
             <small>About Me</small>
             Skills
@@ -487,12 +495,13 @@ export default function Home() {
                 <li>C</li>
                 <li>JAVA</li>
               </ul>
-              <h3>Web Technologis</h3>
+              <h3>Web Tech</h3>
               <ul>
                 <li>HTML</li>
                 <li>CSS</li>
                 <li>PHP</li>
                 <li>JavaScript</li>
+                <li>React & Next.js</li>
                 <li>Git/GitHub</li>
               </ul>
               <h3>AI/ML</h3>
@@ -517,7 +526,7 @@ export default function Home() {
               </ul>
             </div>
             <div className="right-column">
-              <h4>Littel About Me</h4>
+              <h4>Little About Me</h4>
               <p>
              I view software development as a collaborative craft where technical skills meet real-world impact.
               As a Full Stack & Python Developer, I don’t just write code—I look for ways to make the entire team’s 
@@ -535,11 +544,11 @@ export default function Home() {
             team as Vice President has also shaped me into a leader who values empathy and clear communication. I’m 
             looking for a role where I can not only grow as a developer but also contribute to a culture of innovation and success.
               </p>
-              
             </div>
           </div>
         </section>
-        <section className="work-experience containar animate-on-scroll">
+
+        <section className="work-experience container animate-on-scroll">
           <h2>
             <small>Recent</small>
             Experiences
@@ -584,10 +593,10 @@ export default function Home() {
               <div>2021-2023</div>
               <p>Worked under Netaji Subhas National Institute of Sports (NSNIS) Coach as assistant coach.</p>
             </article>  
-            
           </div>
         </section>
-        <section id="projects" className="bento containar animate-on-scroll">
+
+        <section id="projects" className="bento container animate-on-scroll">
           <h2>
             <small>
               Recent
@@ -595,27 +604,20 @@ export default function Home() {
             Check My Completed Projects
           </h2>
           <div className="bento-grid">
-            <a href="#" className="bento-item" onClick={(e) => { e.preventDefault(); setSelectedProject(projectsData[0]); }}>
-              <img src="./imgs/p4.jpg" alt="project-1" width="100%" />
-            </a>
-            <a href="#" className="bento-item" onClick={(e) => { e.preventDefault(); setSelectedProject(projectsData[1]); }}>
-              <img src="./imgs/p2.jpg" alt="project-2" width="100%" />
-            </a>
-            <a href="#" className="bento-item" onClick={(e) => { e.preventDefault(); setSelectedProject(projectsData[2]); }}>
-              <img src="./imgs/p3.jpg" alt="project-3" width="100%" />
-            </a>
-            <a href="#" className="bento-item" onClick={(e) => { e.preventDefault(); setSelectedProject(projectsData[3]); }}>
-              <img src="./imgs/p5.jpg" alt="project-4" width="100%" />
-            </a>
-            <a href="#" className="bento-item" onClick={(e) => { e.preventDefault(); setSelectedProject(projectsData[4]); }}>
-              <img src="./imgs/p6.jpg" alt="project-5" width="100%" />
-            </a>
-            <a href="#" className="bento-item" onClick={(e) => { e.preventDefault(); setSelectedProject(projectsData[5]); }}>
-              <img src="./imgs/p1.png" alt="project-6" width="100%" />
-            </a>
+            {projectsData.map((project, index) => (
+              <a 
+                key={project.id}
+                href="#" 
+                className="bento-item" 
+                onClick={(e) => { e.preventDefault(); setSelectedProject(project); }}
+              >
+                <img src={project.img} alt={`project-${index+1}`} width="100%" />
+              </a>
+            ))}
           </div>
         </section>
-        <section className="chatbot containar animate-on-scroll">
+
+        <section className="chatbot container animate-on-scroll">
           <h2>
             <small>
               Talk to
@@ -633,19 +635,20 @@ export default function Home() {
                 I'm currently looking for new opportunities so if you have a requirement and 
                 you think I'd be a good fit for, please get in touch!</p>
 
-
-                  <div style={{ 
+                {/* --- CHATBOT SECTION ENVELOPE --- */}
+                <div style={{ 
                     position: 'relative', 
-                    width: '120px', 
-                    height: '100px', 
+                    width: '160px', /* Matches Button CSS */
+                    height: '46px', /* Matches Button CSS */
                     marginTop: '20px',
-                    marginLeft: '160px', /* <--- MOVED SLIGHTLY RIGHT */
+                    marginLeft: '160px', 
                     display: 'flex', 
                     alignItems: 'center',
                     justifyContent: 'center'
-                  }}>
+                }}>
                     <ResumeEnvelope onClick={handleResumeDownload} />
-                  </div>
+                </div>
+                {/* -------------------------------- */}
 
             </div>
             <div className="chat-box">
@@ -674,8 +677,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Contact Form Section */}
-        <section id="contact" className="contact-section containar animate-on-scroll">
+        <section id="contact" className="contact-section container animate-on-scroll">
           <h2>
             <small>Get In Touch</small>
             Contact Me
@@ -738,4 +740,3 @@ export default function Home() {
     </>
   );
 }
-//6969 yellow
