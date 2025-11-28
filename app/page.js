@@ -384,14 +384,73 @@ export default function Home() {
           <h2><small>About Me</small>Skills</h2>
           <div className="holder-blue">
             <div className="left-column">
-              <h3>Programming Languages</h3>
-              <ul><li>Python</li><li>C</li><li>JAVA</li></ul>
-              <h3>Web Tech</h3>
-              <ul><li>HTML</li><li>CSS</li><li>PHP</li><li>JavaScript</li><li>React & Next.js</li><li>Git/GitHub</li></ul>
-              <h3>AI/ML</h3>
-              <ul><li>AI Tools</li><li>GenAI</li><li>TensorFlow</li><li>PyTorch</li><li>OpenCV</li><li>YOLO</li><li>XGBoost</li><li>Numpy & Pandas</li><li>Ollama</li><li>LLMs</li></ul>
-              <h3>Database</h3>
-              <ul><li>MySQL</li><li>PostgreSQL</li><li>Cloud</li></ul>
+             <h3>Programming Languages</h3>
+<ul>
+  <li>Python</li>
+  <li>Java</li>
+  <li>C</li>
+  <li>C++</li>
+  <li>SQL</li>
+  <li>TypeScript</li>
+</ul>
+
+<h3>Web Tech</h3>
+<ul>
+  <li>HTML</li>
+  <li>CSS</li>
+  <li>PHP</li>
+  <li>JavaScript</li>
+  <li>React</li>
+  <li>Next.js</li>
+  <li>Node.js</li>
+  <li>Tailwind</li>
+</ul>
+
+<h3>AI/ML</h3>
+<ul>
+  <li>AI Tools</li>
+  <li>GenAI</li>
+  <li>TensorFlow</li>
+  <li>PyTorch</li>
+  <li>OpenCV</li>
+  <li>YOLO</li>
+  <li>XGBoost</li>
+  <li>Ollama</li>
+  <li>LLMs</li>
+  <li>RAG Pipelines</li>
+</ul>
+
+<h3>Data Science</h3>
+<ul>
+  <li>Pandas</li>
+  <li>NumPy</li>
+  <li>Scikit-learn</li>
+  <li>Matplotlib</li>
+</ul>
+
+<h3>Database</h3>
+<ul>
+  <li>MySQL</li>
+  <li>PostgreSQL</li>
+  <li>Cloud</li>
+</ul>
+
+<h3>Hardware</h3>
+<ul>
+  <li>Arduino</li>
+  <li>Raspberry Pi</li>
+  <li>ESP32</li>
+  <li>IoT</li>
+</ul>
+
+<h3>Tools</h3>
+<ul>
+  <li>Git</li>
+  <li>Linux</li>
+  <li>VS Code</li>
+  <li>Neo-vim</li>
+  <li>Docker</li>
+</ul>
             </div>
             <div className="right-column">
               <h4>Little About Me</h4>
@@ -407,6 +466,13 @@ export default function Home() {
                  valid processes and creating robust architectures. A recent example of this impact was during my internship, 
                  where I architected a custom solution that eliminated 100% of third-party API costs,
                  proving that resourcefulness often beats expensive dependencies.
+              </p>
+              <p>
+                My drive for innovation was further recognized when I secured first place in an
+                 ISBM intercollege hackathon. For this competition, I developed a "Pothole Detection" project, 
+                 leveraging my technical skills to address critical real-world infrastructure challenges. 
+                 This victory demonstrated not only my ability to deliver complex 
+                solutions under tight deadlines but also my commitment to engineering for social impact.
               </p>
               <p>
                This technical rigor is matched only by my personal discipline. As a District Wrestling Champion, 
