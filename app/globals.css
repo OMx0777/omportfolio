@@ -479,10 +479,21 @@ section{
     text-decoration: none;
 }
 
-.hero .hero-yellow{
-    flex:1;
-    background-color: rgb(95, 26, 26);
-    border-radius:30px;
+.hero .hero-yellow {
+    flex: 1;
+    
+    /* CHANGED: rgb(95, 26, 26) -> rgba(95, 26, 26, 0.5) */
+    /* The 0.5 means 50% opacity. Lower it to 0.3 for more transparency. */
+    background-color: rgba(95, 26, 26, 0.5);
+    
+    /* ADDED: This makes it look like frosted glass */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    
+    /* ADDED: A subtle border to define the edges (matches your blue box) */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    border-radius: 30px;
     padding: 0px 30px;
     display: flex;
     justify-content: center;
@@ -506,7 +517,7 @@ section{
 
 @keyframes fadeInVideo {
     from { opacity: 0; }
-    to { opacity: 1; }
+    to { opacity: 0.5; }
 }
 
 .hero .hero-yellow img{
@@ -942,9 +953,16 @@ h3{
     padding-right: 30px;
 }
 
-.chatbot .chatbot-blue .chat-box{
-    flex:4;
-    background: var(--base-100);
+.chatbot .chatbot-blue .chat-box {
+    flex: 4;
+    
+    /* WHITE GLASS EFFECT */
+    background: rgba(255, 255, 255, 0.1); /* 10% opacity white */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle white border */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    
     border-radius: 15px;
     padding: 30px;
     display: flex;
@@ -1001,11 +1019,15 @@ h3{
     }
 }
 
-.chatbot .chatbot-blue .chat-box .scroll-area ul li div{
+.chatbot .chatbot-blue .chat-box .scroll-area ul li div {
     flex: 1;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    color: black; /* Chat messages inside the white box must be black */
+    
+    /* Changed from black to white for contrast on glass */
+    color: white; 
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
 .chatbot .chatbot-blue .chat-box .chat-message{
@@ -1015,26 +1037,28 @@ h3{
     align-items: stretch;
 }
 
-.chatbot .chatbot-blue .chat-box .chat-message input{
-    border-radius:10px;
-    flex:1;
-    padding:15px;
-    border:1px solid transparent;
-    background-color: var(--base-100);
+.chatbot .chatbot-blue .chat-box .chat-message input {
+    border-radius: 10px;
+    flex: 1;
+    padding: 15px;
+    
+    /* Glass Input Style */
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white; /* Text you type is white */
+    
     transition: var(--transition);
     min-width: 0;
 }
 
-.chatbot .chatbot-blue .chat-box .chat-message input:hover{
-    outline:none;
-    background-color:white;
-    border:1px solid var(--base-100);
-}
-
+.chatbot .chatbot-blue .chat-box .chat-message input:hover,
 .chatbot .chatbot-blue .chat-box .chat-message input:focus{
-    outline:none;
-    background-color: white;
-    border:1px solid var(--base-100);
+ outline: none;
+    background-color: rgba(255, 255, 255, 0.2); /* Brighter glass on click */
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+.chatbot .chatbot-blue .chat-box .chat-message input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
 }
 
 .chatbot .chatbot-blue .chat-box .chat-message button{
@@ -1448,9 +1472,81 @@ h3{
     text-decoration: none;
 }
 /* =========================================
-   SOFT RAINBOW ANIMATION KEYFRAMES
+   SOFT RAINBOW ANIMATION KEYFRAMES//////////////////////////////////////////////////////////////////////////////////////////////////////////////
    ========================================= */
 @keyframes softRainbowMove {
     0% { background-position: 0% 50%; }
     100% { background-position: 100% 50%; }
+}
+/* ADD THESE TO globals.css */
+
+.call-to-action-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.envelope-wrapper {
+    position: relative;
+    width: 160px;
+    height: 46px;
+}
+
+.hero-img-overlay {
+    width: 105%;
+    height: 120%;
+    margin-top: -60px;
+    margin-bottom: 0px;
+    position: relative;
+    z-index: 2;
+}
+
+.modal-img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    object-fit: cover;
+}
+
+.modal-tags {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.tech-tag {
+    background: #333;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.envelope-wrapper-chat {
+    position: relative;
+    width: 160px;
+    height: 46px;
+    margin-top: 20px;
+    margin-left: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Fix for mobile menu overlap */
+@media (max-width: 768px) {
+    .envelope-wrapper-chat {
+        margin-left: 0;
+        margin: 20px auto;
+    }
 }

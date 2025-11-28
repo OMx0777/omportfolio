@@ -4,7 +4,7 @@
 */
 'use strict';
 
-const canvas = document.getElementsByTagName('canvas')[0];
+const canvas = document.getElementById('fluid-canvas');
 resizeCanvas();
 
 // --- CONFIGURATION ---
@@ -1457,4 +1457,15 @@ function hashCode (s) {
         hash |= 0; // Convert to 32bit integer
     }
     return hash;
+};
+// ... existing code ...
+
+// Add this at the very end of fluid_final.js
+window.startFluid = () => {
+    // Force a resize and restart the loop if needed
+    resizeCanvas();
+    config.PAUSED = false;
+    // Ensure we aren't running multiple loops
+    cancelAnimationFrame(update); 
+    update(); 
 };
