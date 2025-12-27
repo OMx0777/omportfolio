@@ -1,6 +1,8 @@
 /*
-    CLEANED WebGL Fluid Simulation - FIXED MOUSE TRACKING
-    Part 1: Config, Context, and Shaders
+    CLEANED WebGL Fluid Simulation
+    - Fixed Mouse Tracking (Global Window Listeners)
+    - Fixed Reload Crashing (Wait for React)
+    - Fixed Double Speed Bug (Animation ID Clearing)
 */
 'use strict';
 
@@ -31,7 +33,7 @@ let config = {
     BLOOM_INTENSITY: 0.4,
     BLOOM_THRESHOLD: 0.3,
     BLOOM_SOFT_KNEE: 0.3,
-    SUNRAYS: true, // chutiyagiri surya banavtay
+    SUNRAYS: true, 
     SUNRAYS_RESOLUTION: 196,
     SUNRAYS_WEIGHT: 0.3,
 }
@@ -722,10 +724,6 @@ const gradientSubtractShader = compileShader(gl.FRAGMENT_SHADER, `
 `);
 
 const displayMaterial = new Material(baseVertexShader, displayShaderSource);
-/*
-    CLEANED WebGL Fluid Simulation - FIXED MOUSE TRACKING
-    Part 2: Execution and Fixed Event Listeners
-*/
 
 const blit = (() => {
     gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
@@ -984,7 +982,9 @@ multipleSplats(parseInt(Math.random() * 20) + 5);
 
 let lastUpdateTime = Date.now();
 let colorUpdateTimer = 0.0;
-update();
+// update(); <--- REMOVED TO PREVENT RACE CONDITION
+
+let animationId = null; // Global ID to manage loop
 
 function update () {
     const dt = calcDeltaTime();
@@ -995,7 +995,7 @@ function update () {
     if (!config.PAUSED)
         step(dt);
     render(null);
-    requestAnimationFrame(update);
+    animationId = requestAnimationFrame(update); // Capture ID
 }
 
 function calcDeltaTime () {
@@ -1240,9 +1240,9 @@ function splatPointer (pointer) {
 function multipleSplats (amount) {
     for (let i = 0; i < amount; i++) {
         const color = generateColor();
-        color.r *= 0.0;//he te starting la color chi chutiya giri
-        color.g *= 0.0;
-        color.b *= 0.0;
+        color.r *= 10.0;
+        color.g *= 10.0;
+        color.b *= 10.0;
         const x = Math.random();
         const y = Math.random();
         const dx = 1000 * (Math.random() - 0.5);
@@ -1458,14 +1458,19 @@ function hashCode (s) {
     }
     return hash;
 };
-// ... existing code ...
 
-// Add this at the very end of fluid_final.js
+// --- REACT INTERFACE (ROBUST STARTUP) ---
+
 window.startFluid = () => {
-    // Force a resize and restart the loop if needed
+    // 1. Cancel previous loop if running (Fixes double speed)
+    if (animationId) {
+        cancelAnimationFrame(animationId);
+    }
+
+    // 2. Reset state
     resizeCanvas();
     config.PAUSED = false;
-    // Ensure we aren't running multiple loops
-    cancelAnimationFrame(update); 
-    update(); 
+
+    // 3. Start fresh loop
+    update();
 };

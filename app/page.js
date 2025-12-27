@@ -3,7 +3,7 @@ import FluidBackground from "./FluidBackground";
 import { useState, useEffect, useRef } from "react";
 import ResumeEnvelope from "./ResumeEnvelope";
 import "./globals.css";
-// import Image from "next/image"; // Recommended for production
+import Image from "next/image"; // Recommended for production
 
 // 1. DATA MOVED OUTSIDE COMPONENT (Performance)
 const projectsData = [
@@ -232,6 +232,7 @@ export default function Home() {
     console.log("Resume downloaded at:", new Date().toISOString());
   };
 
+  // --- LOADING SCREEN (Stays 100% Scale) ---
   if (loading) {
     return (
       <div className="loading-screen">
@@ -255,6 +256,9 @@ export default function Home() {
 
   return (
     <>
+      {/* GLOBAL ELEMENTS (Must stay OUTSIDE scale-wrapper) 
+         This ensures they are full screen and positioned correctly.
+      */}
       <FluidBackground />
       <div className="progress-bar" style={{ width: `${scrollProgress}%` }} />
 
@@ -297,342 +301,357 @@ export default function Home() {
         </div>
       )}
 
-      <header>
-        <a href="#" className="logo-holder">
-          <img src="./imgs/omnobgprof2.png" alt="Logo" className="logo-img" />
-          <div className="logo-text">My Portfolio website</div>
-        </a>
-        <nav>
-          <ul id="menu" className={menuOpen ? "active" : ""}>
-            <li><a href="#" className="btn-rainbow-smooth">Home</a></li>
-            <li><a href="#skills" className="btn-rainbow-smooth">Skills</a></li>
-            <li><a href="#projects" className="btn-rainbow-smooth">Projects</a></li>
-            <li><a href="#contact" className="button btn-rainbow-smooth">Contact Me</a></li>
-          </ul>
-          <button className="mobile-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle Menu">
-            <svg className="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-              <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="M5 7h14M5 12h14M5 17h10"/>
-            </svg>
-          </button>
-        </nav>
-      </header>
+      {/* CONTENT WRAPPER (This scales the site content to 90%)
+         Everything inside here will be zoomed out.
+      */}
+      <div className="scale-wrapper">
+        <header>
+            <a href="#" className="logo-holder">
+            <img src="./imgs/omnobgprof2.png" alt="Logo" className="logo-img" />
+            <div className="logo-text">My Portfolio website</div>
+            </a>
+            <nav>
+            <ul id="menu" className={menuOpen ? "active" : ""}>
+                <li><a href="#" className="btn-rainbow-smooth">Home</a></li>
+                <li><a href="#skills" className="btn-rainbow-smooth">Skills</a></li>
+                <li><a href="#projects" className="btn-rainbow-smooth">Projects</a></li>
+                <li><a href="#contact" className="button btn-rainbow-smooth">Contact Me</a></li>
+            </ul>
+            <button className="mobile-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle Menu">
+                <svg className="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="M5 7h14M5 12h14M5 17h10"/>
+                </svg>
+            </button>
+            </nav>
+        </header>
 
-      <main>
-        <section className="hero container animate-on-scroll">
-          <div className="hero-blue">
-            <h1>
-              <small>Hi I'm</small>
-              <span ref={heroTextRef} className="typing-text">Om</span>
-            </h1>
-            <p>
-              Passionate Full Stack Developer & Data Scientist focused on turning complex problems into elegant code.
-              My technical foundation is amplified by elite Problem solving & leadership skills 
-              <span> I seek an IT role valuing high performance and strategic direction.</span>
-            </p>
+        <main>
+            <section className="hero container animate-on-scroll">
+            <div className="hero-blue">
+                <h1>
+                <small>Hi I'm</small>
+                <span ref={heroTextRef} className="typing-text">Om</span>
+                </h1>
+                <p>
+                Passionate Full Stack Developer & Data Scientist focused on turning complex problems into elegant code.
+                My technical foundation is amplified by elite Problem solving & leadership skills 
+                <span> I seek an IT role valuing high performance and strategic direction.</span>
+                </p>
 
-            <div className="call-to-action-wrapper">
-                <a href="mailto:Om.Sathe23@iccs.ac.in" className="btn-dark-glass">
-                    Contact Me
-                </a>
-                <div className="envelope-wrapper">
-                    <ResumeEnvelope onClick={handleResumeDownload} />
+                <div className="call-to-action-wrapper">
+                    <a href="mailto:Om.Sathe23@iccs.ac.in" className="btn-dark-glass">
+                        Contact Me
+                    </a>
+                    <div className="envelope-wrapper">
+                        <ResumeEnvelope onClick={handleResumeDownload} />
+                    </div>
+                </div>
+
+                <div className="social-links">
+                <a href="https://github.com/OMx0777" aria-label="Github"><img src="./imgs/github.png" alt="Github" width="48" /></a>
+                <a href="https://www.linkedin.com/in/om-sathe-547756304/" aria-label="LinkedIn"><img src="./imgs/linkedin.png" alt="linkedin" width="48" /></a>
+                <a href="https://www.youtube.com/@OmSathe-0777" aria-label="YouTube"><img src="./imgs/youtube.png" alt="youtube" width="48" /></a>
                 </div>
             </div>
-
-            <div className="social-links">
-              <a href="https://github.com/OMx0777" aria-label="Github"><img src="./imgs/github.png" alt="Github" width="48" /></a>
-              <a href="https://www.linkedin.com/in/om-sathe-547756304/" aria-label="LinkedIn"><img src="./imgs/linkedin.png" alt="linkedin" width="48" /></a>
-              <a href="https://www.youtube.com/@OmSathe-0777" aria-label="YouTube"><img src="./imgs/youtube.png" alt="youtube" width="48" /></a>
+            <div className="hero-yellow">
+                <video 
+        ref={videoRef}
+        autoPlay 
+        loop 
+        muted 
+        playsInline
+        className="hero-video"
+        onCanPlay={(e) => { e.target.playbackRate = 0.85; }} 
+    >
+        <source src="./imgs/marvelbg.mp4" type="video/mp4" />
+        <source src="./imgs/marvelbg.webm" type="video/webm" />
+    </video>
+                <img src="./imgs/omnobg692.png" alt="Om Profile" className="hero-img-overlay"/>
             </div>
-          </div>
-          <div className="hero-yellow">
-            <video 
-    ref={videoRef}
-    autoPlay 
-    loop 
-    muted 
-    playsInline
-    className="hero-video"
-    /* This forces the speed to update as soon as the video can play */
-    onCanPlay={(e) => { e.target.playbackRate = 0.85; }} 
->
-    <source src="./imgs/marvelbg.mp4" type="video/mp4" />
-    <source src="./imgs/marvelbg.webm" type="video/webm" />
-</video>
-            <img src="./imgs/omnobg692.png" alt="Om Profile" className="hero-img-overlay"/>
-          </div>
-        </section>
+            </section>
 
-        <section className="logos container animate-on-scroll">
-          <div className="marquee" style={{ '--marquee-speed': `${marqueeSpeed}s` }}>
-            <div className="track">
-                {/* Render icons twice for seamless looping */}
-                {[...techIcons, ...techIcons].map((icon, index) => (
-                    <img key={index} src={icon.src} alt={icon.alt} width="80" height="80" loading="lazy" />
+            <section className="logos container animate-on-scroll">
+            <div className="marquee" style={{ '--marquee-speed': `${marqueeSpeed}s` }}>
+                <div className="track">
+                    {[...techIcons, ...techIcons].map((icon, index) => (
+                        <img key={index} src={icon.src} alt={icon.alt} width="80" height="80" loading="lazy" />
+                    ))}
+                </div>
+            </div>
+            <div className="speed-controls">
+                <button className="speed-btn" onClick={() => setMarqueeSpeed(prev => Math.max(0.1, prev <= 1 ? prev - 0.1 : prev - 1))} disabled={marqueeSpeed <= 0.1}>Fast</button>
+                <span className="speed-indicator">Speed: {marqueeSpeed.toFixed(1)}s</span>
+                <button className="speed-btn" onClick={() => setMarqueeSpeed(prev => Math.min(60, prev < 1 ? prev + 0.1 : prev + 1))} disabled={marqueeSpeed >= 60}>Slow</button>
+            </div>
+            </section>
+
+            <section id="skills" className="skills container animate-on-scroll">
+            <h2><small>About Me</small>Skills</h2>
+            <div className="holder-blue">
+                <div className="left-column">
+                <h3>Programming Languages</h3>
+    <ul>
+    <li>Python</li>
+    <li>Java</li>
+    <li>C</li>
+    <li>SQL</li>
+    <li>TypeScript</li>
+    </ul>
+
+    <h3>Web Tech</h3>
+    <ul>
+    <li>HTML</li>
+    <li>CSS</li>
+    <li>PHP</li>
+    <li>JavaScript</li>
+    <li>React</li>
+    <li>Next.js</li>
+    <li>Node.js</li>
+    <li>Tailwind</li>
+    </ul>
+
+    <h3>AI/ML</h3>
+    <ul>
+    <li>AI Tools</li>
+    <li>GenAI</li>
+    <li>TensorFlow</li>
+    <li>PyTorch</li>
+    <li>OpenCV</li>
+    <li>YOLO</li>
+    <li>XGBoost</li>
+    <li>Ollama</li>
+    <li>LLMs</li>
+    <li>RAG Pipelines</li>
+    </ul>
+
+    <h3>Data Science</h3>
+    <ul>
+    <li>Pandas</li>
+    <li>NumPy</li>
+    <li>Scikit-learn</li>
+    <li>Matplotlib</li>
+    </ul>
+
+    <h3>Database</h3>
+    <ul>
+    <li>MySQL</li>
+    <li>PostgreSQL</li>
+    <li>Cloud</li>
+    </ul>
+
+    <h3>Hardware</h3>
+    <ul>
+    <li>Arduino</li>
+    <li>Raspberry Pi</li>
+    <li>ESP32</li>
+    <li>IoT</li>
+    </ul>
+
+    <h3>Tools</h3>
+    <ul>
+    <li>AWS</li>
+    <li>Git</li>
+    <li>Linux</li>
+    <li>VS Code</li>
+    <li>Neo-vim</li>
+    <li>Docker</li>
+    </ul>
+                </div>
+                <div className="right-column">
+                <h4>Little About Me</h4>
+                <p>
+        I sit at the intersection of software, data, and hardware. As a <strong>Full Stack & Python Developer</strong>,
+        my skillset is amplified by a strong foundation in Data Science, Artificial Intelligence, and Electronics.
+        I don't just build applications; I build data-intensive systems that learn and adapt. Whether I am analyzing
+        signal processing in hardware or optimizing neural networks, I approach every challenge with a focus on scalability.
+                </p>
+                <p>
+        My professional journey is defined by tangible impact. Currently, as an <strong>AI/ML Engineer Intern at BluOrigin Media</strong>,
+        I develop models to optimize lead scoring and engineer data pipelines that drive business decisions.
+        This builds on my previous success at Alfido IT Services, where I architected a custom solution that 
+        eliminated 100% of third-party API costs, proving that resourcefulness often beats expensive dependencies.
+                </p>
+                <p>
+        My drive for innovation was recognized when I secured <strong>first place in an
+        Intercollege Hackathon</strong>. I developed a "Pothole Detection" project using YOLOv5 and OpenCV,
+        leveraging computer vision to address critical real-world infrastructure challenges.
+        This victory demonstrated not only my ability to deliver complex solutions under tight deadlines but also 
+        my commitment to engineering for social impact.
+                </p>
+                <p>
+        This technical rigor is matched by my personal discipline. As a <strong>Pune District Wrestling Champion</strong>,
+        I apply the same resilience to solving hard engineering problems as I do to competition. Furthermore,
+        serving as <strong>Vice President of the Rotaract club</strong> has taught me that successful projects require more than
+        just logic—they require empathy, clear communication, and a unified team vision.
+            </p>
+            </div>
+            </div>
+            </section>
+
+            <section className="work-experience container animate-on-scroll">
+            <h2><small>Recent</small>Experiences</h2>
+            <div className="jobs">
+                <article>
+    <figure>
+        <div>
+        <img src="./imgs/bluorigin.png" alt="BluOrigin Media" loading="lazy" />
+        <figcaption>Pune, India</figcaption>
+        </div>
+    </figure>
+    <h3>BluOrigin Media</h3>
+    <div>Dec 2025 - Present</div>
+    <p>
+        Developed AI/ML models for lead scoring and campaign prediction. Engineered automated 
+        data pipelines and translated technical insights into actionable business strategies.
+    </p>
+    </article>
+                <article>
+                <figure>
+                    <div>
+                    <img src="./imgs/alfidologo.png" alt="internship" loading="lazy" />
+                    <figcaption>Remote</figcaption>
+                    </div>
+                </figure>
+                <h3>Alfido IT Services</h3>
+                <div>2025</div>
+                <p>Worked as a Python Developer Intern for 4 months managing website and an application.</p>
+                </article>      
+                <article>
+                <figure>
+                    <div>
+                    <img src="./imgs/rtr1.png" alt="vicepresident" loading="lazy" />
+                    <figcaption>Pharmacy Auditorium</figcaption>
+                    </div>
+                </figure>
+                <h3>Rotaract Club Of IC</h3>
+                <div>2023-2025</div>
+                <p>Worked at Rotaract club as Board of director and Vice president.</p>
+                </article>
+                <article>
+                <figure>
+                    <div>
+                    <img src="./imgs/coach.png" alt="wrestling-awards" loading="lazy" />
+                    <figcaption>State Wrestling Federation</figcaption>
+                    </div>
+                </figure>
+                <h3>Narendra Wrestling Club</h3>
+                <div>2021-2023</div>
+                <p>Worked under Netaji Subhas National Institute of Sports (NSNIS) Coach as assistant coach.</p>
+                </article>  
+            </div>
+            </section>
+
+            <section id="projects" className="bento container animate-on-scroll">
+            <h2><small>Recent</small>Check My Completed Projects</h2>
+            <div className="bento-grid">
+                {projectsData.map((project, index) => (
+                <a 
+                    key={project.id}
+                    href="#" 
+                    className="bento-item" 
+                    onClick={(e) => { e.preventDefault(); setSelectedProject(project); }}
+                >
+                    <img src={project.img} alt={project.title} loading="lazy" />
+                </a>
                 ))}
             </div>
-          </div>
-          <div className="speed-controls">
-            <button className="speed-btn" onClick={() => setMarqueeSpeed(prev => Math.max(0.1, prev <= 1 ? prev - 0.1 : prev - 1))} disabled={marqueeSpeed <= 0.1}>Fast</button>
-            <span className="speed-indicator">Speed: {marqueeSpeed.toFixed(1)}s</span>
-            <button className="speed-btn" onClick={() => setMarqueeSpeed(prev => Math.min(60, prev < 1 ? prev + 0.1 : prev + 1))} disabled={marqueeSpeed >= 60}>Slow</button>
-          </div>
-        </section>
+            </section>
 
-        {/* Skills Section - Kept largely the same, just cleaner indentation */}
-        <section id="skills" className="skills container animate-on-scroll">
-          <h2><small>About Me</small>Skills</h2>
-          <div className="holder-blue">
-            <div className="left-column">
-             <h3>Programming Languages</h3>
-<ul>
-  <li>Python</li>
-  <li>Java</li>
-  <li>C</li>
-  <li>C++</li>
-  <li>SQL</li>
-  <li>TypeScript</li>
-</ul>
+            <section className="chatbot container animate-on-scroll">
+            <h2><small>Talk to</small>OMI</h2>
+            <div className="chatbot-blue">
+                <div className="chat-info">
+                <h3>My AI Assistant</h3>
+                <p>She is Omi. Omi knows all my skills and About my Acadamics and Experiences. She also have my Resume.</p>
+                <p>I'm currently looking for new opportunities so if you have a requirement and you think I'd be a good fit for, please get in touch!</p>
 
-<h3>Web Tech</h3>
-<ul>
-  <li>HTML</li>
-  <li>CSS</li>
-  <li>PHP</li>
-  <li>JavaScript</li>
-  <li>React</li>
-  <li>Next.js</li>
-  <li>Node.js</li>
-  <li>Tailwind</li>
-</ul>
-
-<h3>AI/ML</h3>
-<ul>
-  <li>AI Tools</li>
-  <li>GenAI</li>
-  <li>TensorFlow</li>
-  <li>PyTorch</li>
-  <li>OpenCV</li>
-  <li>YOLO</li>
-  <li>XGBoost</li>
-  <li>Ollama</li>
-  <li>LLMs</li>
-  <li>RAG Pipelines</li>
-</ul>
-
-<h3>Data Science</h3>
-<ul>
-  <li>Pandas</li>
-  <li>NumPy</li>
-  <li>Scikit-learn</li>
-  <li>Matplotlib</li>
-</ul>
-
-<h3>Database</h3>
-<ul>
-  <li>MySQL</li>
-  <li>PostgreSQL</li>
-  <li>Cloud</li>
-</ul>
-
-<h3>Hardware</h3>
-<ul>
-  <li>Arduino</li>
-  <li>Raspberry Pi</li>
-  <li>ESP32</li>
-  <li>IoT</li>
-</ul>
-
-<h3>Tools</h3>
-<ul>
-  <li>Git</li>
-  <li>Linux</li>
-  <li>VS Code</li>
-  <li>Neo-vim</li>
-  <li>Docker</li>
-</ul>
-            </div>
-            <div className="right-column">
-              <h4>Little About Me</h4>
-              <p>
-                I sit at the intersection of software, data, and hardware. As a Full Stack & Python Developer,
-                 my skillset is amplified by a strong foundation in Data Science, Artificial Intelligence, and Electronics.
-                  I don't just build applications; I build data-intensive systems that learn and adapt. Whether I am analyzing
-                   signal processing in hardware or optimizing neural networks for
-                 Machine Learning applications, I approach every challenge with a focus on scalability and efficiency.
-              </p>
-              <p>
-                I believe that the best code is born from collaboration. I strive to make my team’s life easier by automating
-                 valid processes and creating robust architectures. A recent example of this impact was during my internship, 
-                 where I architected a custom solution that eliminated 100% of third-party API costs,
-                 proving that resourcefulness often beats expensive dependencies.
-              </p>
-              <p>
-                My drive for innovation was further recognized when I secured first place in an
-                 ISBM intercollege hackathon. For this competition, I developed a "Pothole Detection" project, 
-                 leveraging my technical skills to address critical real-world infrastructure challenges. 
-                 This victory demonstrated not only my ability to deliver complex 
-                solutions under tight deadlines but also my commitment to engineering for social impact.
-              </p>
-              <p>
-               This technical rigor is matched only by my personal discipline. As a District Wrestling Champion, 
-               I apply the same resilience to solving hard engineering problems as I do to competition. Furthermore,
-                serving as Vice President of a 90+ member Rotaract club has taught me that successful projects require more than 
-               just logic—they require empathy, clear communication, and a unified team vision.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section className="work-experience container animate-on-scroll">
-          <h2><small>Recent</small>Experiences</h2>
-          <div className="jobs">
-            <article>
-              <figure>
-                <div>
-                  <img src="./imgs/alfidologo.png" alt="internship" loading="lazy" />
-                  <figcaption>Remote</figcaption>
+                    <div className="envelope-wrapper-chat">
+                        <ResumeEnvelope onClick={handleResumeDownload} />
+                    </div>
                 </div>
-              </figure>
-              <h3>Alfido IT Services</h3>
-              <div>2025</div>
-              <p>Worked as a Python Developer Intern for 4 months managing website and an application.</p>
-            </article>      
-            <article>
-              <figure>
-                <div>
-                  <img src="./imgs/rtr1.png" alt="vicepresident" loading="lazy" />
-                  <figcaption>Pharmacy Auditorium</figcaption>
+                <div className="chat-box">
+                <div className="scroll-area">
+                    <ul id="chat-log">
+                    {messages.map((message, index) => (
+                        <li key={index} className={`${message.role}`}>
+                        <span className={`avatar`}>{message.role === 'user' ? 'You' : 'Omi'}</span>
+                        <div className="message">{message.content}</div>
+                        </li>
+                    ))}
+                    </ul>
                 </div>
-              </figure>
-              <h3>Rotaract Club Of IC</h3>
-              <div>2023-2025</div>
-              <p>Worked at Rotaract club as Board of director and Vice president.</p>
-            </article>
-            <article>
-              <figure>
-                <div>
-                  <img src="./imgs/coach.png" alt="wrestling-awards" loading="lazy" />
-                  <figcaption>State Wrestling Federation</figcaption>
-                </div>
-              </figure>
-              <h3>Narendra Wrestling Club</h3>
-              <div>2021-2023</div>
-              <p>Worked under Netaji Subhas National Institute of Sports (NSNIS) Coach as assistant coach.</p>
-            </article>  
-          </div>
-        </section>
-
-        <section id="projects" className="bento container animate-on-scroll">
-          <h2><small>Recent</small>Check My Completed Projects</h2>
-          <div className="bento-grid">
-            {projectsData.map((project, index) => (
-              <a 
-                key={project.id}
-                href="#" 
-                className="bento-item" 
-                onClick={(e) => { e.preventDefault(); setSelectedProject(project); }}
-              >
-                <img src={project.img} alt={project.title} loading="lazy" />
-              </a>
-            ))}
-          </div>
-        </section>
-
-        <section className="chatbot container animate-on-scroll">
-          <h2><small>Talk to</small>OMI</h2>
-          <div className="chatbot-blue">
-            <div className="chat-info">
-              <h3>My AI Assistant</h3>
-              <p>She is Omi. Omi knows all my skills and About my Acadamics and Experiences. She also have my Resume.</p>
-              <p>I'm currently looking for new opportunities so if you have a requirement and you think I'd be a good fit for, please get in touch!</p>
-
-                <div className="envelope-wrapper-chat">
-                    <ResumeEnvelope onClick={handleResumeDownload} />
+                <form onSubmit={submitForm} className="chat-message">
+                    <input 
+                    type="text" 
+                    placeholder="Hey Omi, what skills are Om best at?" 
+                    value={messageInput} 
+                    onChange={e => setMessageInput(e.target.value)}
+                    className={formErrors.message ? 'input-error' : ''}
+                    />
+                    <button className="button black">Send</button>
+                </form>
                 </div>
             </div>
-            <div className="chat-box">
-              <div className="scroll-area">
-                <ul id="chat-log">
-                  {messages.map((message, index) => (
-                    <li key={index} className={`${message.role}`}>
-                      <span className={`avatar`}>{message.role === 'user' ? 'You' : 'Omi'}</span>
-                      <div className="message">{message.content}</div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <form onSubmit={submitForm} className="chat-message">
-                <input 
-                  type="text" 
-                  placeholder="Hey Omi, what skills are Om best at?" 
-                  value={messageInput} 
-                  onChange={e => setMessageInput(e.target.value)}
-                  className={formErrors.message ? 'input-error' : ''}
-                />
-                <button className="button black">Send</button>
-              </form>
+            </section>
+
+            <section id="contact" className="contact-section container animate-on-scroll">
+            <h2><small>Get In Touch</small>Contact Me</h2>
+            <div className="contact-container">
+                <form onSubmit={submitContactForm} className="contact-form">
+                <div className="form-group">
+                    <label htmlFor="fullName">Your Name</label>
+                    <input
+                    type="text"
+                    id="fullName"
+                    value={contactForm.fullName}
+                    onChange={(e) => setContactForm({...contactForm, fullName: e.target.value})}
+                    className={contactErrors.fullName ? 'input-error' : ''}
+                    placeholder="Bhupendra jogi"
+                    disabled={isSending}
+                    />
+                    {contactErrors.fullName && <p className="error-message">{contactErrors.fullName}</p>}
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="email">Your Email</label>
+                    <input
+                    type="email"
+                    id="email"
+                    value={contactForm.email}
+                    onChange={(e) => setContactForm({...contactForm, email: e.target.value})}
+                    className={contactErrors.email ? 'input-error' : ''}
+                    placeholder="Om@example.com"
+                    disabled={isSending}
+                    />
+                    {contactErrors.email && <p className="error-message">{contactErrors.email}</p>}
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="message">Message for Om</label>
+                    <textarea
+                    id="message"
+                    value={contactForm.message}
+                    onChange={(e) => setContactForm({...contactForm, message: e.target.value})}
+                    className={contactErrors.message ? 'input-error' : ''}
+                    placeholder="Hi Om, I'd like to discuss..."
+                    disabled={isSending}
+                    />
+                    {contactErrors.message && <p className="error-message">{contactErrors.message}</p>}
+                </div>
+
+                <button 
+                    type="submit" 
+                    className="button black submit-btn"
+                    disabled={isSending}
+                    style={{ opacity: isSending ? 0.7 : 1, cursor: isSending ? 'not-allowed' : 'pointer' }}
+                >
+                    {isSending ? 'Sending...' : 'Send Message'}
+                </button>
+                </form>
             </div>
-          </div>
-        </section>
-
-        <section id="contact" className="contact-section container animate-on-scroll">
-          <h2><small>Get In Touch</small>Contact Me</h2>
-          <div className="contact-container">
-            <form onSubmit={submitContactForm} className="contact-form">
-              <div className="form-group">
-                <label htmlFor="fullName">Your Name</label>
-                <input
-                  type="text"
-                  id="fullName"
-                  value={contactForm.fullName}
-                  onChange={(e) => setContactForm({...contactForm, fullName: e.target.value})}
-                  className={contactErrors.fullName ? 'input-error' : ''}
-                  placeholder="Bhupendra jogi"
-                  disabled={isSending}
-                />
-                {contactErrors.fullName && <p className="error-message">{contactErrors.fullName}</p>}
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="email">Your Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  value={contactForm.email}
-                  onChange={(e) => setContactForm({...contactForm, email: e.target.value})}
-                  className={contactErrors.email ? 'input-error' : ''}
-                  placeholder="Om@example.com"
-                  disabled={isSending}
-                />
-                {contactErrors.email && <p className="error-message">{contactErrors.email}</p>}
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="message">Message for Om</label>
-                <textarea
-                  id="message"
-                  value={contactForm.message}
-                  onChange={(e) => setContactForm({...contactForm, message: e.target.value})}
-                  className={contactErrors.message ? 'input-error' : ''}
-                  placeholder="Hi Om, I'd like to discuss..."
-                  disabled={isSending}
-                />
-                {contactErrors.message && <p className="error-message">{contactErrors.message}</p>}
-              </div>
-
-              <button 
-                type="submit" 
-                className="button black submit-btn"
-                disabled={isSending}
-                style={{ opacity: isSending ? 0.7 : 1, cursor: isSending ? 'not-allowed' : 'pointer' }}
-              >
-                {isSending ? 'Sending...' : 'Send Message'}
-              </button>
-            </form>
-          </div>
-        </section>
-      </main>
+            </section>
+        </main>
+      </div> {/* END OF SCALE WRAPPER */}
     </>
   );
 }

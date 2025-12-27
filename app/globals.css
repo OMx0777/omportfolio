@@ -39,7 +39,10 @@ body {
     color: var(--base-800);
     position: relative;
     overflow-x: hidden;
+
 }
+
+
 
 /* Progress Bar */
 .progress-bar {
@@ -1549,4 +1552,14 @@ h3{
         margin-left: 0;
         margin: 20px auto;
     }
+}
+
+/* app/globals.css */
+
+.scale-wrapper {
+    transform: scale(0.9);
+    transform-origin: top left; /* CHANGED: Anchors content to the left edge */
+    width: 111.12%;             /* CHANGED: Increased slightly to ensure full coverage */
+    overflow-x: hidden;
+    position: relative;         /* Ensures it sits correctly in the document flow */
 }

@@ -5,22 +5,35 @@ export default function FluidBackground() {
   const canvasRef = useRef(null);
 
   useEffect(() => {
+    // Helper to safely start the animation
+    const triggerFluid = () => {
+      // Check if the global function exists
+      if (window.startFluid && typeof window.startFluid === 'function') {
+        window.startFluid();
+      } else {
+        // If not ready yet, retry in 100ms (fixes race conditions)
+        setTimeout(triggerFluid, 100);
+      }
+    };
+
     // 1. Check if script is already in the DOM
-    // Note: We are looking for the NEW filename
     const existingScript = document.querySelector('script[src="/fluid_final.js"]');
     
     if (!existingScript) {
-      // 2. If not, create it and append it
+      // 2. Load the script afresh
       const script = document.createElement("script");
-      script.src = "/fluid_final.js"; // <--- IMPORTANT: NEW NAME
+      script.src = "/fluid_final.js";
       script.async = true;
+      
+      // CRITICAL: Wait for the script to fully load before starting
+      script.onload = () => {
+        triggerFluid();
+      };
+      
       document.body.appendChild(script);
     } else {
-      // 3. If it IS there, force the fluid to restart
-      // This fixes the issue where it stops when you navigate pages
-      if (window.startFluid) {
-        window.startFluid();
-      }
+      // 3. Script exists (navigation event), restart immediately
+      triggerFluid();
     }
   }, []);
 

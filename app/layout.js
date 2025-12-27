@@ -1,27 +1,26 @@
-/* layout.js */
+import { Open_Sans } from 'next/font/google';
 import "./globals.css";
-import FluidBackground from "./FluidBackground"; // Import the background here
+
+// Note: FluidBackground is NOT imported here because we included it 
+// directly in page.tsx. This prevents "double background" bugs.
+
+const openSans = Open_Sans({ 
+  subsets: ['latin'],
+  display: 'swap',
+});
 
 export const metadata = {
   title: "Portfolio",
-  description: "portfolio website of Om",
+  description: "Portfolio website of Om",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        {/* Correct way to load fonts in Next.js App Router */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link 
-          href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" 
-          rel="stylesheet" 
-        />
-        <link rel="icon" type="image/jpg" href="./imgs/om1.jpg" />
+        <link rel="icon" type="image/jpg" href="/imgs/om1.jpg" />
       </head>
-      <body>
-        <FluidBackground /> {/* Runs once globally, never resets */}
+      <body className={openSans.className}>
         {children}
       </body>
     </html>
