@@ -37,7 +37,7 @@ const techIcons = [
 // REPLACE THESE PATHS with your actual icon images in public/imgs/
 const liveWebsites = [
   { src: "./imgs/web1.png", link: "https://omx0777.github.io/3D-Car-Model-RayTracing/", alt: "Website 1" },
-  { src: "./imgs/web2.png", link: "https://omx0777.github.io/3D-Car-Model-RayTracing/", alt: "Website 2" },
+  { src: "./imgs/web2.png", link: "https://omx0777.github.io/Photo-gen-old/", alt: "Website 2" },
   { src: "./imgs/web3.png", link: "https://omx0777.github.io/3D-Car-Model-RayTracing/", alt: "Website 3" },
   { src: "./imgs/web4.png", link: "https://omx0777.github.io/3D-Car-Model-RayTracing/", alt: "Website 4" },
 ];
