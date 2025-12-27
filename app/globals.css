@@ -1570,36 +1570,61 @@ h3{
 
 
 
-/* Website Links Section */
+/* app/globals.css */
+
+/* --- WEBSITE LINKS SECTION --- */
 .website-links {
     text-align: center;
-    margin-top: 40px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(0,0,0,0.1); /* Subtle separator line */
+    margin-top: 80px;      /* Huge space above */
+    padding-top: 50px;
+    border-top: 1px solid rgba(255,255,255,0.1);
 }
 
 .website-links h3 {
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 36px;
+    margin-bottom: 60px;
     color: var(--base-800);
+    font-weight: 700;
 }
 
 .website-links .links-row {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    align-items: center;
+    
+    /* DISTANCE: Very far apart */
+    gap: 150px;            
+    
     flex-wrap: wrap;
+    padding-bottom: 50px;
 }
 
-/* Mobile responsive check */
+/* SPECIFIC ICON STYLING */
+.website-links .links-row .icon-link img {
+    /* SIZE: 160px is exactly double the 80px logos */
+    width: 160px !important;  
+    height: 160px !important;
+    
+    object-fit: contain;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
+    cursor: pointer;
+}
+
+/* HOVER EFFECT */
+.website-links .links-row .icon-link:hover img {
+    transform: scale(1.1) translateY(-15px);
+    filter: drop-shadow(0 25px 30px rgba(0, 192, 255, 0.5));
+}
+
+/* MOBILE FALLBACK (Because 160px + 150px gap won't fit on a phone) */
 @media (max-width: 768px) {
     .website-links .links-row {
-        flex-direction: column;
-        align-items: center;
+        gap: 40px;
+        flex-direction: column; /* Stack them on mobile */
     }
-    
-    .website-links .links-row a {
-        width: 100%;
-        max-width: 300px;
+    .website-links .links-row .icon-link img {
+        width: 100px !important;
+        height: 100px !important;
     }
 }

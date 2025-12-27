@@ -5,7 +5,7 @@ import ResumeEnvelope from "./ResumeEnvelope";
 import "./globals.css";
 import Image from "next/image"; 
 
-// 1. DATA MOVED OUTSIDE COMPONENT (Performance)
+// 1. DATA: Projects
 const projectsData = [
   { id: 1, title: "Machine learning To predict Suicide rate", description: "Advanced machine learning project utilizing TensorFlow and Python for predictive analytics for Farmers suicide rate on Geografical level.", tech: ["Python", "ML", "streamlit", "XGBoost"], img: "./imgs/p4.jpg", link: "https://github.com/OMx0777/Farmer_Suicide_Risk_Predictor", vdlink: "https://youtu.be/MBLSE1GMEho?si=pEKjLiMXuJr0UXFT" },
   { id: 2, title: "Offline Code Generation App", description: "Full stack code developer tool using Self finetuned deepseek LLM for Security and Privacy.", tech: ["Python", "Ollama", "LLM", "HuggingFace"], img: "./imgs/p2.jpg", link: "https://github.com/OMx0777/offline-finetuned-coder-AI", vdlink: "https://youtu.be/6aF9wwdzKMY?si=Jef-bpxBOaNcdCq5" },
@@ -15,6 +15,7 @@ const projectsData = [
   { id: 6, title: "Potholes Detector and Reporter", description: "Potholes Detector and Reporter Using ML..", tech: ["ML", "AI", "OpenCV", "MySQL", "API"], img: "./imgs/p1.png", link: "https://github.com/OMx0777/Pothole-Detector-prototype", vdlink: "https://youtu.be/6aF9wwdzKMY?si=Jef-bpxBOaNcdCq5" }
 ];
 
+// 2. DATA: Tech Icons
 const techIcons = [
   { src: "./imgs/python69.png", alt: "Python" },
   { src: "./imgs/html-69.png", alt: "HTML" },
@@ -30,6 +31,15 @@ const techIcons = [
   { src: "./imgs/java69.png", alt: "java" },
   { src: "./imgs/blockchain69.png", alt: "blockchain" },
   { src: "./imgs/git69.png", alt: "git" },
+];
+
+// 3. DATA: Live Websites (PNG Icons)
+// REPLACE THESE PATHS with your actual icon images in public/imgs/
+const liveWebsites = [
+  { src: "./imgs/web1.png", link: "https://omx0777.github.io/3D-Car-Model-RayTracing/", alt: "Website 1" },
+  { src: "./imgs/web2.png", link: "https://omx0777.github.io/3D-Car-Model-RayTracing/", alt: "Website 2" },
+  { src: "./imgs/web3.png", link: "https://omx0777.github.io/3D-Car-Model-RayTracing/", alt: "Website 3" },
+  { src: "./imgs/web4.png", link: "https://omx0777.github.io/3D-Car-Model-RayTracing/", alt: "Website 4" },
 ];
 
 export default function Home() {
@@ -296,7 +306,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* SCALE WRAPPER: Update globals.css to scale(0.75) and width: 133.34% */}
+      {/* SCALE WRAPPER: Make sure globals.css has .scale-wrapper set to scale(0.75) */}
       <div className="scale-wrapper">
         <header>
             <a href="#" className="logo-holder">
@@ -377,22 +387,15 @@ export default function Home() {
                 <button className="speed-btn" onClick={() => setMarqueeSpeed(prev => Math.min(60, prev < 1 ? prev + 0.1 : prev + 1))} disabled={marqueeSpeed >= 60}>Slow</button>
             </div>
 
-            {/* --- NEW: Website Links Section --- */}
+            {/* --- NEW: Website PNG Icon Links --- */}
             <div className="website-links">
                 <h3>Check Out My Live Websites</h3>
                 <div className="links-row">
-                    <a href="https://google.com" target="_blank" rel="noopener noreferrer" className="btn-dark-glass">
-                        My Blog
-                    </a>
-                    <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="btn-dark-glass">
-                        Project Demo
-                    </a>
-                    <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="btn-dark-glass">
-                        Source Code
-                    </a>
-                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="btn-dark-glass">
-                        Connect
-                    </a>
+                    {liveWebsites.map((site, index) => (
+                        <a key={index} href={site.link} target="_blank" rel="noopener noreferrer" className="icon-link">
+                            <img src={site.src} alt={site.alt} loading="lazy" />
+                        </a>
+                    ))}
                 </div>
             </div>
             {/* ---------------------------------- */}
