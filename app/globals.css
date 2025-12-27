@@ -1556,10 +1556,50 @@ h3{
 
 /* app/globals.css */
 
+/* app/globals.css */
+
 .scale-wrapper {
-    transform: scale(0.9);
-    transform-origin: top left; /* CHANGED: Anchors content to the left edge */
-    width: 111.12%;             /* CHANGED: Increased slightly to ensure full coverage */
+    transform: scale(0.75);      /* CHANGED: 0.9 -> 0.75 (25% smaller) */
+    transform-origin: top left;  /* Anchor to top left */
+    width: 133.34%;              /* CHANGED: 100% ÷ 0.75 = 133.33...% */
     overflow-x: hidden;
-    position: relative;         /* Ensures it sits correctly in the document flow */
+    position: relative;
+}
+
+
+
+
+
+/* Website Links Section */
+.website-links {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(0,0,0,0.1); /* Subtle separator line */
+}
+
+.website-links h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: var(--base-800);
+}
+
+.website-links .links-row {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* Mobile responsive check */
+@media (max-width: 768px) {
+    .website-links .links-row {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .website-links .links-row a {
+        width: 100%;
+        max-width: 300px;
+    }
 }

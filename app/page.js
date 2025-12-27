@@ -3,7 +3,7 @@ import FluidBackground from "./FluidBackground";
 import { useState, useEffect, useRef } from "react";
 import ResumeEnvelope from "./ResumeEnvelope";
 import "./globals.css";
-import Image from "next/image"; // Recommended for production
+import Image from "next/image"; 
 
 // 1. DATA MOVED OUTSIDE COMPONENT (Performance)
 const projectsData = [
@@ -62,10 +62,8 @@ export default function Home() {
 
   // --- 1. OPTIMIZED LOADING & VIDEO ---
   useEffect(() => {
-    // Combine initialization logic
     const timer = setTimeout(() => setLoading(false), 1500);
     
-    // Set video speed immediately if ref exists
     if (videoRef.current) {
         videoRef.current.playbackRate = 0.85;
     }
@@ -96,7 +94,7 @@ export default function Home() {
 
   // --- 3. ANIMATION OBSERVER ---
   useEffect(() => {
-    if (loading) return; // Don't observe until loaded
+    if (loading) return; 
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -228,7 +226,6 @@ export default function Home() {
 
   const handleResumeDownload = () => {
     showToast("Resume downloaded successfully!");
-    // Add actual download logic here, e.g., window.open('/resume.pdf');
     console.log("Resume downloaded at:", new Date().toISOString());
   };
 
@@ -256,9 +253,7 @@ export default function Home() {
 
   return (
     <>
-      {/* GLOBAL ELEMENTS (Must stay OUTSIDE scale-wrapper) 
-         This ensures they are full screen and positioned correctly.
-      */}
+      {/* GLOBAL ELEMENTS (Stay 100% Scale) */}
       <FluidBackground />
       <div className="progress-bar" style={{ width: `${scrollProgress}%` }} />
 
@@ -301,9 +296,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* CONTENT WRAPPER (This scales the site content to 90%)
-         Everything inside here will be zoomed out.
-      */}
+      {/* SCALE WRAPPER: Update globals.css to scale(0.75) and width: 133.34% */}
       <div className="scale-wrapper">
         <header>
             <a href="#" className="logo-holder">
@@ -383,6 +376,26 @@ export default function Home() {
                 <span className="speed-indicator">Speed: {marqueeSpeed.toFixed(1)}s</span>
                 <button className="speed-btn" onClick={() => setMarqueeSpeed(prev => Math.min(60, prev < 1 ? prev + 0.1 : prev + 1))} disabled={marqueeSpeed >= 60}>Slow</button>
             </div>
+
+            {/* --- NEW: Website Links Section --- */}
+            <div className="website-links">
+                <h3>Check Out My Live Websites</h3>
+                <div className="links-row">
+                    <a href="https://google.com" target="_blank" rel="noopener noreferrer" className="btn-dark-glass">
+                        My Blog
+                    </a>
+                    <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="btn-dark-glass">
+                        Project Demo
+                    </a>
+                    <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="btn-dark-glass">
+                        Source Code
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="btn-dark-glass">
+                        Connect
+                    </a>
+                </div>
+            </div>
+            {/* ---------------------------------- */}
             </section>
 
             <section id="skills" className="skills container animate-on-scroll">
@@ -651,7 +664,7 @@ export default function Home() {
             </div>
             </section>
         </main>
-      </div> {/* END OF SCALE WRAPPER */}
+      </div> 
     </>
   );
 }
