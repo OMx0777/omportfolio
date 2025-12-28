@@ -37,9 +37,9 @@ const techIcons = [
 // REPLACE THESE PATHS with your actual icon images in public/imgs/
 const liveWebsites = [
   { src: "./imgs/web1.png", link: "https://omx0777.github.io/3D-Car-Model-RayTracing/", alt: "Website 1" },
-  { src: "./imgs/web2.png", link: "https://omx0777.github.io/Photo-gen-old/", alt: "Website 2" },
-  { src: "./imgs/web3.png", link: "https://omx0777.github.io/3D-Car-Model-RayTracing/", alt: "Website 3" },
-  { src: "./imgs/web4.png", link: "https://omx0777.github.io/3D-Car-Model-RayTracing/", alt: "Website 4" },
+  { src: "./imgs/web2.png", link: "https://omx0777.github.io/TANK/", alt: "Website 2" },
+  { src: "./imgs/web3.png", link: "https://omx0777.github.io/Photo-gen-old/", alt: "Website 3" },
+  { src: "./imgs/web4.png", link: "https://omx0777.github.io/Photo-gen-old/", alt: "Website 4" },
 ];
 
 export default function Home() {
@@ -336,8 +336,8 @@ export default function Home() {
                 <span ref={heroTextRef} className="typing-text">Om</span>
                 </h1>
                 <p>
-                Passionate Full Stack Developer & Data Scientist focused on turning complex problems into elegant code.
-                My technical foundation is amplified by elite Problem solving & leadership skills 
+                AI/ML Engineer & Lichess.com Contributor focused on turning complex problems into elegant code. 
+                My Python back-end and model architecture skills are amplified by elite Teamwork. 
                 <span> I seek an IT role valuing high performance and strategic direction.</span>
                 </p>
 
@@ -389,7 +389,7 @@ export default function Home() {
 
             {/* --- NEW: Website PNG Icon Links --- */}
             <div className="website-links">
-                <h3>Check Out My Live Websites</h3>
+                <h3>Check Out My FUN Live Websites</h3>
                 <div className="links-row">
                     {liveWebsites.map((site, index) => (
                         <a key={index} href={site.link} target="_blank" rel="noopener noreferrer" className="icon-link">
