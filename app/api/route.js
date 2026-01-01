@@ -1,169 +1,131 @@
 import { OpenAI } from 'openai';
 import { NextResponse } from 'next/server';
 
-// ERROR FIX: The DATA_RESUME constant was missing.
-// I've added it back here.
+// 1. CREDENTIALS
+const API_KEY = "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"; 
+const BASE_URL = "https://openrouter.ai/api/v1";
+
+// 2. UPDATED MODEL LIST (Currently Active Free Models)
+const MODELS = [
+  "mistralai/mistral-7b-instruct:free",   // Most reliable free model
+  "huggingfaceh4/zephyr-7b-beta:free",    // Very fast, usually available
+  "meta-llama/llama-3.2-1b-instruct:free", // New lightweight model (less traffic)
+  "google/gemini-2.0-flash-exp:free",     // Smartest, but keeps hitting rate limits (use as backup)
+  "openchat/openchat-7:free"              // Another solid backup
+];
+
+// 3. YOUR RESUME DATA (Updated with Resume PDF Content)
 const DATA_RESUME = `
-Here is a corrected, elaborated, and more polished version of your profile.
+About Om Sathe:
+- Role: AI/ML Engineer & Full Stack Developer
+- Education: Bachelor of Science in Computer Science, Indira College of Commerce and Science, Pune (2023-2026). Grade: A+ (CGPA: 8.64/10)
+- Contact: +91 8767657297 | omsathe0777@gmail.com | Pune, Maharashtra
+- GitHub: https://github.com/OMx0777
+- Portfolio: Work Samples Portfolio
 
-I've focused on using stronger action verbs, clarifying the impact of your projects and leadership roles, and reorganizing your skills into clearer, industry-standard categories.
+Experience:
+1. AI/ML Engineer Intern at BluOrigin Media (Dec 2025 - Present)
+   - Developing and deploying AI/ML models to optimize digital marketing performance, focusing on lead scoring and campaign performance prediction using supervised and unsupervised learning.
+   - Engineering data pipelines for structured and unstructured datasets via Exploratory Data Analysis (EDA) and feature engineering to automate analytical tasks.
+   - Collaborating with cross-functional teams to translate technical insights into actionable business recommendations using Python and data visualization tools.
 
-Om Sathe
-Rihe, Mulashi, Pune, Maharashtra 412115 +91 8767657297 | omsathe0777@gmail.com | GitHub: OMx0777
+2. Python & Web Developer Intern at Alfido IT Services (July 2025 - Oct 2025)
+   - Gained hands-on experience in dynamic web application development and managed end-to-end deployment lifecycles, deploying over 7 iterative updates.
+   - Eliminated 100% of third-party API operational costs by developing an open-source optimization solution.
 
-Objective & Summary
-Objective Seeking a challenging entry-level developer role where I can apply my advanced skills in Python, AI/ML, and problem-solving to build impactful solutions and contribute to a high-performing team.
+Projects:
+- Agrarian Distress & Suicide Risk Predictor: Designed a predictive model using Python, XGBoost, and Scikit-learn to analyze socioeconomic and climate data, identifying key risk factors for farmer distress with a 92% F1-Score.
+- AI-Powered Pothole Detection & Reporting System: Engineered a real-time computer vision system using YOLOv5 and OpenCV to detect road hazards with 95% mAP. Implemented a geo-tagging module and automated email alerts to the Road & Transport Department.
+- LogicGuard (ML-Augmented Neurosymbolic Framework): Engineered a hybrid architecture integrating GPT-4 with LTLf to enforce SOP adherence. Implemented a runtime enforcement layer using DFA and MONA to eliminate "Logic Drift," achieving a 93% reliability rate and 53.3% reduction in logic-based vulnerabilities.
+- Offline Code Generation App: A full-stack developer tool using self-finetuned DeepSeek LLM for privacy.
+- Real-Time Emotion Tracker: Computer vision project using Torch/OpenCV that recommends music based on live emotion.
+- Credit Card Fraud Detector: Achieved 90-95% accuracy using Random Forest and XGBoost.
 
-Professional Summary A results-oriented and passionate Python Developer with a talent for translating complex problems into elegant, efficient code. Possesses a strong technical foundation in Artificial Intelligence, Machine Learning, and Web Development, amplified by proven leadership experience in managing large teams and executing strategic initiatives. Eager to secure an IT role that values high performance, innovation, and strategic direction.
+Research & Publications:
+- Published Paper: "Machine Learning-Augmented Neurosymbolic AgenticOps Framework for Runtime Verification and Enforcement of Standard Operating Procedures" in the International Journal of Innovation Science.
 
-Education
-Indira College of Commerce and Science, Pune
+Skills:
+- Languages: Python (Advanced), Java, C, C++, SQL, TypeScript, JavaScript.
+- AI/ML: GenAI, TensorFlow, PyTorch, OpenCV, YOLO, LLMs, RAG Pipelines.
+- Web: Next.js, React, Node.js, PHP, Tailwind, HTML.
+- Data: Pandas, NumPy, Scikit-learn, Matplotlib.
+- Hardware: Arduino, Raspberry Pi, ESP32, IoT.
+- Tools: AWS, Git, Linux (Arch Linux enthusiast), VS Code, Neo-vim, Docker.
 
-Degree: Bachelor of Science in Computer Science
+Achievements & Awards:
+- 1st Place: Intercollege Hackathon.
+- Community Volunteer: Lichess (World's top 2 chess organization).
+- Leadership: Vice President of Rotaract Club of IC (2023-2025) and Best Board of Director Award.
+- Sports: Pune District Wrestling Champion (Gold Medal) and District Level Chess Silver Medal.
 
-Expected Graduation: 2025
-
-Grade: A+ (SGPA: 8.64/10.0)
-
-Technical Skills
-Programming Languages: Python (Advanced), C, C++, Java
-
-AI & Machine Learning: Generative AI, Model Training & Evaluation, Computer Vision, NLP, TensorFlow, PyTorch, NumPy, Pandas
-
-Web & Database: HTML, CSS, JavaScript, PHP, Flask, SQL, PostgreSQL
-
-Tools & Platforms: Git, GitHub, AI Development Tools, Cloud Platforms
-
-Python Developer Internship at Alfido IT services: I served as 
- key contributor, gaining essential practical experience in 
- core platform management and modernization. My primary responsibilities 
- included managing and updating the company's websites and applications,
-  ensuring all digital content and functionality were current and met
-   operational standards. I took a proactive role in implementing recent
-    technologies, which involved researching, testing, and deploying modern
-     solutions to enhance overall platform performance and user experience. 
-     Crucially, I maintained a strict focus on code stability by executing
-      rigorous debugging protocols and ensuring the creation and maintenance of comprehensive
-       code documentation for all new features and updates,
- contributing directly to long-term project maintainability.
-
-Project Portfolio
-Credit Card Fraud Detector (ML) Engineered a high-accuracy machine learning model to detect and flag fraudulent credit card transactions. Leveraged advanced algorithms and data preprocessing techniques to achieve 90-95% accuracy, significantly enhancing financial security.
-
-Farmer Suicide Predictor (ML / Predictive Analytics) Designed and trained a predictive model to analyze complex socioeconomic, agricultural, and climate data. The model identifies key risk factors contributing to farmer distress, providing a potential tool for proactive policy-making and early intervention.
-
-Pothole Detector (Computer Vision) Built a real-time computer vision solution to automatically detect and localize potholes from image and video data. This project has direct applications in public safety, smart city development, and infrastructure maintenance.
-
-Real-Time Emotion Detector (Computer Vision / ML) Developed an application using deep learning to analyze facial expressions from a live video feed. The system accurately categorizes and tracks human emotions in real-time, with potential uses in user experience (UX) research and interactive applications.
-
-Offline Coding Tools (Generative AI) Developed a suite of offline-first development and coding utility tools by locally integrating the DeepSeek model. This enhances developer productivity by enabling AI-powered coding assistance without requiring an internet connection.
-
-Unemployment Predictor (ML / Predictive Analytics) Constructed a predictive analytics model to forecast unemployment trends. The project involved time-series analysis of historical economic, demographic, and policy data to provide actionable insights for economists and policymakers.
-
-AI Voice Assistant (Python / NLP) Engineered a conversational AI assistant from scratch using Python. The project integrates Natural Language Processing (NLP) with speech recognition and text-to-speech (TTS) libraries to create a functional, voice-controlled user interface.
-
-URL Shortener Service (Python / Flask / SQL) Designed, developed, and deployed a robust, high-availability URL shortening service. Built with a Python/Flask backend and an SQL database, the application efficiently manages, shortens, and resolves custom links.
-
-Experience & Leadership
-Rotaract Club of Indira College | Pune
-
-Vice President (July 2025 to Present)
-
-Direct and execute strategic operations for a 96-member service organization, providing oversight for four primary committees.
-
-Lead and mentor a diverse team, aligning club activities with long-term service and professional development goals.
-
-Board of Director & Team Leader (Previous Role)
-
-Served as a key member of the Board of Directors, contributing to club governance and strategic planning.
-
-Successfully led a team of 90+ members in organizing and executing large-scale charity and community service events.
-
-Key Achievement: Played an integral role in generating over ₹1 Lakh (100,000+) in funding for charitable causes and club operations.
-
-Narendra Wrestling Club | Pune
-
-Assistant Coach (2021 – 2023)
-
-Co-developed training programs and mentored athletes, focusing on technique, discipline, and sportsmanship.
-
-Additional Leadership Roles
-
-Class Representative (3 Years)
-
-Wrestling Coach (2 Years)
-
-Modeling Team Coordinator (2 Years)
-
-Achievements & Certifications
-Awards & Achievements
-
-Best Board of Director Award (Rotaract Club)
-
-Gold Medal: Pune District Wrestling
-
-Silver Medal: District Level Chess
-
-Competitive Athlete: State-level Professional Wrestler & District-level Chess Player
-
-Certifications
-
-IBM: Developing AI Applications using Python and Flask (Grade: 83%)
-
-Edureka: Web Development Full Course
-
-Be10x: AI Tools Workshop
-
-TTUA: Cyber Security
+Certifications:
+- IBM - Developing AI Application using Python and Flask.
+- Cloud Computing With Amazon Web Services.
+- Web Development Full Course.
 `;
 
 export async function POST(req) {
-
-  // Read the new, clear variables
-  const baseURL = process.env.OPENROUTER_BASE_URL;
-  const apiKey = process.env.OPENROUTER_API_KEY;
-  const model = process.env.OPENROUTER_MODEL;
-
-  // Validate the new variables
-  if (!baseURL || !apiKey || !model) {
-    return NextResponse.json(
-      { error: "Missing OPENROUTER_BASE_URL, OPENROUTER_API_KEY, or OPENROUTER_MODEL environment variables." },
-      { status: 500 }
-    );
-  }
-
-  // Initialize the client for OpenRouter
-  const client = new OpenAI({
-    apiKey: apiKey,
-    baseURL: baseURL,
-  });
-
   try {
     const { messages } = await req.json();
 
-    messages.unshift({
-      role: 'system',
-      content: `You are Omi, answering only questions based on the resume provided.
-Resume:
-${DATA_RESUME}
-
-Help users learn more about Om from his resume.`
+    const client = new OpenAI({
+      apiKey: API_KEY,
+      baseURL: BASE_URL,
+      defaultHeaders: {
+        "HTTP-Referer": "https://omsathe-portfolio.com", 
+        "X-Title": "Om Portfolio",
+      }
     });
 
-    const response = await client.chat.completions.create({
-      model: model, // This will use 'deepseek/deepseek-chat' from your .env
-      messages: messages,
-      max_tokens: 128,
-    });
+    const conversation = [
+      {
+        role: 'system',
+        content: `You are Omi, a helpful AI assistant for Om Sathe's portfolio. 
+        Answer questions strictly based on the resume below.
+        Keep answers concise (under 3 sentences) and professional but friendly.
+        
+        Resume:
+        ${DATA_RESUME}`
+      },
+      ...messages 
+    ];
 
-    return NextResponse.json({
-      message: response.choices[0].message.content
-    });
+    // --- ROBUST RETRY LOOP ---
+    let lastError = null;
+
+    for (const model of MODELS) {
+      try {
+        console.log(`Attempting with model: ${model}`);
+        
+        const response = await client.chat.completions.create({
+          model: model,
+          messages: conversation,
+          max_tokens: 150, 
+        });
+
+        // If we get here, it worked! Return immediately.
+        return NextResponse.json({
+          message: response.choices[0].message.content
+        });
+
+      } catch (error) {
+        // Log the failure but continue to the next model
+        console.warn(`Model ${model} failed with ${error.status || 'unknown error'}. Switching...`);
+        lastError = error;
+      }
+    }
+
+    // If ALL models fail
+    console.error("All free models failed.");
+    return NextResponse.json(
+      { error: "AI is currently busy. Please try again in a moment." },
+      { status: 503 } // 503 = Service Unavailable
+    );
 
   } catch (error) {
-    console.error(error);
+    console.error("Critical Server Error:", error);
     return NextResponse.json(
-      { error: error.message || "An unknown error occurred." },
+      { error: "Internal Server Error" },
       { status: 500 }
     );
   }

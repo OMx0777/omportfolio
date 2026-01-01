@@ -69,6 +69,8 @@ export default function Home() {
   const [isSending, setIsSending] = useState(false);
   const [contactForm, setContactForm] = useState({ fullName: '', email: '', message: '' });
   const [contactErrors, setContactErrors] = useState({});
+   //recruiter sathi
+  const [isRecruiterMode, setIsRecruiterMode] = useState(false);
 
   // --- 1. OPTIMIZED LOADING & VIDEO ---
   useEffect(() => {
@@ -162,29 +164,40 @@ export default function Home() {
     return Object.keys(errors).length === 0;
   };
 
-  const submitForm = async (e) => {
+ const submitForm = async (e) => {
     e.preventDefault();
-    if (!validateForm()) {
-      showToast("Please enter a message", "error");
-      return;
+    if (!messageInput.trim()) return;
+
+    // 1. Logic: If in Recruiter Mode, send a specific "Job Match" prompt
+    let userDisplay = messageInput;
+    let aiPrompt = messageInput;
+
+    if (isRecruiterMode) {
+        userDisplay = "📄 [Analyzing Job Description...]"; 
+        aiPrompt = `Here is a Job Description I am hiring for:\n\n"${messageInput}"\n\nBased on your resume, explain strictly why Om is a good fit for this role. Map his specific projects (like the Pothole Detector or Offline Code App) to the requirements.`;
     }
 
-    let newMessages = [...messages, { role: 'user', content: messageInput }];
+    // 2. Update UI immediately
+    let newMessages = [...messages, { role: 'user', content: userDisplay }];
     setMessages(newMessages);
     setMessageInput('');
-    setFormErrors({});
+    
+    // Optional: Turn off recruiter mode after sending so they see the chat
+    if (isRecruiterMode) setIsRecruiterMode(false);
 
     try {
       const apiMessage = await fetch('/api', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: newMessages })
+        body: JSON.stringify({ messages: [...messages, { role: 'user', content: aiPrompt }] })
       }).then(res => res.json());
       
+      if (apiMessage.error) throw new Error(apiMessage.error);
+
       setMessages([...newMessages, { role: 'assistant', content: apiMessage.message }]);
-      showToast("Message sent successfully!");
     } catch (error) {
-      showToast("Failed to send message", "error");
+      console.error(error);
+      setMessages([...newMessages, { role: 'assistant', content: "Sorry, I couldn't analyze that right now. Please try again." }]);
     }
   };
 
@@ -244,6 +257,7 @@ export default function Home() {
     return (
       <div className="loading-screen">
         <div className="spinner"></div>
+        <p>Please Open in Computer for better Experience.</p>
         <p>Loading Portfolio...</p>
         <style jsx>{`
           .loading-screen {
@@ -585,28 +599,79 @@ export default function Home() {
                         <ResumeEnvelope onClick={handleResumeDownload} />
                     </div>
                 </div>
-                <div className="chat-box">
-                <div className="scroll-area">
-                    <ul id="chat-log">
-                    {messages.map((message, index) => (
-                        <li key={index} className={`${message.role}`}>
-                        <span className={`avatar`}>{message.role === 'user' ? 'You' : 'Omi'}</span>
-                        <div className="message">{message.content}</div>
-                        </li>
-                    ))}
-                    </ul>
-                </div>
-                <form onSubmit={submitForm} className="chat-message">
-                    <input 
-                    type="text" 
-                    placeholder="Hey Omi, what skills are Om best at?" 
-                    value={messageInput} 
-                    onChange={e => setMessageInput(e.target.value)}
-                    className={formErrors.message ? 'input-error' : ''}
-                    />
-                    <button className="button black">Send</button>
-                </form>
-                </div>
+                
+  <div className="chat-box">
+  <div className="scroll-area">
+    <ul id="chat-log">
+      {messages.map((message, index) => (
+        <li key={index} className={`${message.role}`}>
+          <span className={`avatar`}>{message.role === 'user' ? 'You' : 'Omi'}</span>
+          <div className="message">{message.content}</div>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  {/* --- FORM AREA --- */}
+  <form onSubmit={submitForm} className="chat-message" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+    
+    {/* ROW 1: Input Field & Send Button */}
+    <div style={{ display: 'flex', gap: '10px', width: '100%' }}>
+        {isRecruiterMode ? (
+            <textarea 
+                placeholder="Paste the Job Description here..."
+                value={messageInput}
+                onChange={e => setMessageInput(e.target.value)}
+                style={{
+                    flex: 1, minHeight: '50px', padding: '12px', borderRadius: '8px',
+                    border: '1px solid rgba(255,255,255,0.2)', background: 'rgba(0,0,0,0.2)',
+                    color: 'white', fontFamily: 'inherit', fontSize: '14px', resize: 'none'
+                }}
+            />
+        ) : (
+            <input 
+                type="text" 
+                placeholder="Ask Omi anything..." 
+                value={messageInput} 
+                onChange={e => setMessageInput(e.target.value)}
+                style={{ flex: 1 }} 
+            />
+        )}
+        
+        <button className="button black" style={{ height: 'auto', alignSelf: 'stretch' }}>
+            {isRecruiterMode ? "Analyze" : "Send"}
+        </button>
+    </div>
+
+    {/* ROW 2: Wide Toggle Button (Black & White) */}
+    <button 
+        type="button" 
+        onClick={() => setIsRecruiterMode(!isRecruiterMode)}
+        style={{
+            width: '100%',
+            padding: '10px',
+            borderRadius: '8px',
+            border: '1px solid rgba(255,255,255,0.1)', // Subtle border for definition
+            background: '#000000', // Pure Black
+            color: '#ffffff',      // Pure White
+            fontSize: '12px',
+            fontWeight: '600',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: '8px',
+            marginTop: '5px'
+        }}
+        onMouseOver={(e) => e.currentTarget.style.background = '#222'} // Hover effect
+        onMouseOut={(e) => e.currentTarget.style.background = '#000'}
+    >
+        {isRecruiterMode ? "✕ Cancel Analysis Mode" : "Hiring? Check Job Fit"}
+    </button>
+
+  </form>
+</div>
             </div>
             </section>
 
