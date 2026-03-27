@@ -2,8 +2,9 @@ import { OpenAI } from 'openai';
 import { NextResponse } from 'next/server';
 
 // 1. CREDENTIALS
-const API_KEY = "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"; 
-const BASE_URL = "https://openrouter.ai/api/v1";
+// Pulls the key secretly from Netlify or .env.local!
+const API_KEY = process.env.OPENROUTER_API_KEY; 
+const BASE_URL = process.env.OPENROUTER_BASE_URL || "https://openrouter.ai/api/v1";
 
 // 2. UPDATED MODEL LIST (Currently Active Free Models)
 const MODELS = [
