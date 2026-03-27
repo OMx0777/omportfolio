@@ -173,7 +173,7 @@ export default function Home() {
     let aiPrompt = messageInput;
 
     if (isRecruiterMode) {
-        userDisplay = "📄 [Analyzing Job Description...]"; 
+        userDisplay = "📄 [Analyzing Your Job Description...]"; 
         aiPrompt = `Here is a Job Description I am hiring for:\n\n"${messageInput}"\n\nBased on your resume, explain strictly why Om is a good fit for this role. Map his specific projects (like the Pothole Detector or Offline Code App) to the requirements.`;
     }
 

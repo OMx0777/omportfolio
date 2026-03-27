@@ -8,11 +8,11 @@ const BASE_URL = process.env.OPENROUTER_BASE_URL || "https://openrouter.ai/api/v
 
 // 2. UPDATED MODEL LIST (Currently Active Free Models)
 const MODELS = [
-  "mistralai/mistral-7b-instruct:free",   // Most reliable free model
-  "huggingfaceh4/zephyr-7b-beta:free",    // Very fast, usually available
-  "meta-llama/llama-3.2-1b-instruct:free", // New lightweight model (less traffic)
-  "google/gemini-2.0-flash-exp:free",     // Smartest, but keeps hitting rate limits (use as backup)
-  "openchat/openchat-7:free"              // Another solid backup
+  "nvidia/nemotron-3-super-120b-a12b:free",  // The most stable free model right now
+  "qwen/qwen3-next-80b-a3b-instruct:free",   // Fast and high context
+  "mistralai/mistral-small-3.1-24b-instruct:free", 
+  "google/gemma-3-27b-it:free",              // The new Google free tier
+  "openrouter/free"                         // The "Magic" ID that finds any open free model
 ];
 
 // 3. YOUR RESUME DATA (Updated with Resume PDF Content)
