@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
+    "@google/generative-ai": "^0.24.1",
     "azure": "^0.5.2",
     "next": "^16.1.1",
     "openai": "^6.6.0",
